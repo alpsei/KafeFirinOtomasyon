@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="KafeFirinMaui.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:KafeFirinMaui.Views"
+    Shell.FlyoutBehavior="Disabled"
+    Title="KafeFirinMaui">
+
+    <ShellContent
+        Title="User Login"
+        ContentTemplate="{DataTemplate local:UserLogin}"
+        Route="UserLogin" />
+    
+    <ShellContent
+        Title="Customer Register"
+        ContentTemplate="{DataTemplate local:CustomerRegister}"
+        Route="CustomerRegister" />
+    
+    <ShellContent
+        Title="Customer Main Menu"
+        ContentTemplate="{DataTemplate local:CustomerMainMenu}"
+        Route="CustomerMainMenu" />
+    
+    <ShellContent
+        Title="Staff Main Menu"
+        ContentTemplate="{DataTemplate local:StaffMainMenu}"
+        Route="StaffMainMenu" />
+    
+    <ShellContent
+        Title="Manager Main Menu"
+        ContentTemplate="{DataTemplate local:ManagerMainMenu}"
+        Route="ManagerMainMenu" />
+
+</Shell>

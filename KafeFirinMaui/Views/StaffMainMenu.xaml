@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KafeFirinMaui.Views.StaffMainMenu"
+             Title="Personel Ana Menü">
+    <Grid Padding="20" ColumnSpacing="20" RowSpacing="20"
+          HorizontalOptions="Fill" VerticalOptions="Fill">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Sipariş Butonu -->
+        <Frame Padding="20" BackgroundColor="Orange" CornerRadius="10" HasShadow="True" Grid.Row="0" Grid.Column="0">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnOrderButtonTapped"/>
+            </Frame.GestureRecognizers>
+            <VerticalStackLayout HeightRequest="80" WidthRequest="160" HorizontalOptions="Center">
+                <Image Source="shopping_bag.png" WidthRequest="40" HeightRequest="40"/>
+                <Label Text="Siparişleri Listele" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Puan Ortalamaları Butonu-->
+        <Frame Padding="20" BackgroundColor="Orange" CornerRadius="10" HasShadow="True" Grid.Row="0" Grid.Column="1">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnPointsButtonTapped"/>
+            </Frame.GestureRecognizers>
+            <VerticalStackLayout HeightRequest="95" WidthRequest="160" HorizontalOptions="Center">
+                <Image Source="star.png" WidthRequest="40" HeightRequest="40"/>
+                <Label Text="Puan Ortalamamı Göster" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Stok Butonu-->
+            <Frame Padding="20" BackgroundColor="Orange" CornerRadius="10" HasShadow="True" Grid.Row="1" Grid.Column="0">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnStocksButtonTapped"/>
+                </Frame.GestureRecognizers>
+                <VerticalStackLayout HeightRequest="95" WidthRequest="160" HorizontalOptions="Center">
+                    <Image Source="stock.png" WidthRequest="40" HeightRequest="40"/>
+                    <Label Text="Stokları Görüntüle" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+                </VerticalStackLayout>
+            </Frame>
+    </Grid>
+</ContentPage>

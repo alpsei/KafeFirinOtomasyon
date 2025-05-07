@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KafeFirinMaui.Views.CustomerRegister"
+             Title="Kullanıcı Kayıt">
+    <Grid 
+        Padding="20"
+        RowSpacing="10"
+        ColumnSpacing="40"
+        HorizontalOptions="Center"
+        VerticalOptions="Center">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Text="Ad:" 
+               FontSize="Subtitle" 
+               VerticalOptions="Center" 
+               Grid.Row="0" Grid.Column="0"/>
+
+        <Entry x:Name="nameEntry"
+               Grid.Row="0" Grid.Column="1"
+               MinimumWidthRequest="175"
+               MinimumHeightRequest="10"/>
+
+        <Label Text="Soyad:" 
+               FontSize="Subtitle" 
+               VerticalOptions="Center" 
+               Grid.Row="0" Grid.Column="2"/>
+
+        <Entry x:Name="surnameEntry"
+               Grid.Row="0" Grid.Column="4"
+               MinimumWidthRequest="175"
+               MinimumHeightRequest="10"/>
+
+        <Label Text="Kullanıcı Adı:" 
+               FontSize="Subtitle" 
+               VerticalOptions="Center" 
+               Grid.Row="1" Grid.Column="0"/>
+
+
+        <Entry x:Name="usernameEntry"
+               MinimumWidthRequest="175" MinimumHeightRequest="10"
+               Grid.Row="1" Grid.Column="1"/>
+
+        <Label Text="Şifre:" 
+               FontSize="Subtitle" 
+               VerticalOptions="Center" 
+               Grid.Row="2" Grid.Column="0"/>
+        <Entry x:Name="passwordEntry"
+               IsPassword="True"
+               MinimumWidthRequest="175" MinimumHeightRequest="10"
+               Grid.Row="2" Grid.Column="1"/>
+
+        <Button Clicked="RegisterOnClicked" Text="Kayıt Ol"
+        Grid.Row="7" Grid.Column="0"
+        Grid.ColumnSpan="4"
+        HorizontalOptions="Center"
+        Margin="0,100,0,0"
+        WidthRequest="100"
+        FontSize="18"
+        FontAttributes="Bold"
+        BackgroundColor="OrangeRed">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="PointerOver">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#a13a0e" />
+                                <Setter Property="TextColor" Value="White" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Pressed">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="SteelBlue" />
+                                <Setter Property="TextColor" Value="White" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </VisualStateManager.VisualStateGroups>
+        </Button>
+
+
+        <Label Text="E-Posta" FontSize="Subtitle" 
+               VerticalOptions="Center" 
+               Grid.Row="1" Grid.Column="2"/>
+
+        <Entry x:Name="emailEntry"
+               MinimumWidthRequest="175" MinimumHeightRequest="10"
+               Grid.Row="1" Grid.Column="3"/>
+
+        <Label Text="Güvenlik Sorusu: "
+               FontSize="Subtitle"
+               VerticalOptions="Center"
+               Grid.Row="6" Grid.Column="0"/>
+
+        <Picker x:Name="secQuestionPicker"
+        HeightRequest="10" WidthRequest="175"
+        Grid.Row="6" Grid.Column="1">
+            <Picker.Items>
+                <x:String>İlk evcil hayvanının ismi</x:String>
+                <x:String>İlkokul öğretmeninin ismi</x:String>
+                <x:String>Çocukken yaşadığınız sokağın ismi</x:String>
+                <x:String>En sevdiğiniz çizgi film karakteri</x:String>
+            </Picker.Items>
+        </Picker>
+
+
+
+        <Label Text="Güvenlik Sorusu Cevabı: "
+               FontSize="Subtitle"
+               VerticalOptions="Center"
+               Grid.Row="6" Grid.Column="2"/>
+
+        <Entry x:Name="secAnswerEntry"
+               MinimumWidthRequest="175" HeightRequest="10"
+               Grid.Row="6" Grid.Column="3"/>
+
+
+    </Grid>
+</ContentPage>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KafeFirinMaui.Views.ManagerMainMenu"
+             Title="Müdür Ana Menü">
+    <Grid Padding="20" ColumnSpacing="20"
+          RowSpacing="20" HorizontalOptions="Fill"
+          VerticalOptions="Fill">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Personel Ekleme/Çıkarma Butonu -->
+        <Frame Padding="20" BackgroundColor="Orange" CornerRadius="10" HasShadow="True" Grid.Row="0" Grid.Column="0">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnStaffButtonTapped"/>
+            </Frame.GestureRecognizers>
+            <VerticalStackLayout HeightRequest="90" WidthRequest="160" HorizontalOptions="Center">
+                <Image Source="user.png" WidthRequest="40" HeightRequest="40"/>
+                <Label Text="Personel Ekle/Çıkar" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+            </VerticalStackLayout>
+        </Frame>
+        
+        <!-- Maaş Zammı/Kesintisi Butonu -->
+        <Frame Padding="20" BackgroundColor="Orange" CornerRadius="10" HasShadow="True" Grid.Row="0" Grid.Column="1">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnSalaryButtonTapped"/>
+            </Frame.GestureRecognizers>
+            <VerticalStackLayout HeightRequest="90" WidthRequest="160" HorizontalOptions="Center">
+                <Image Source="money.png" WidthRequest="40" HeightRequest="40"/>
+                <Label Text="Maaş Zammı/Kesintisi" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+            </VerticalStackLayout>
+        </Frame>
+        
+        <!-- Bilgileri Düzenleme Butonu -->
+        <Frame Padding="20" BackgroundColor="Orange" CornerRadius="10" HasShadow="True" Grid.Row="1" Grid.Column="0">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnSettingsButtonTapped"/>
+            </Frame.GestureRecognizers>
+            <VerticalStackLayout HeightRequest="90" WidthRequest="160" HorizontalOptions="Center">
+                <Image Source="setting.png" WidthRequest="40" HeightRequest="40"/>
+                <Label Text="Bilgilerimi Düzenle" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+            </VerticalStackLayout>
+        </Frame>
+        
+        <!-- Personelleri ve Puanları Listeleme Butonu -->
+        <Frame Padding="20" BackgroundColor="Orange" CornerRadius="10" HasShadow="True" Grid.Row="1" Grid.Column="1">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnEmployeeRatesButtonTapped"/>
+            </Frame.GestureRecognizers>
+            <VerticalStackLayout HeightRequest="90" WidthRequest="160" HorizontalOptions="Center">
+                <Image Source="star.png" WidthRequest="40" HeightRequest="40"/>
+                <Label Text="Personel Puanları" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+            </VerticalStackLayout>
+        </Frame>
+        
+        <!-- Geri Bildirim Gelen Kutusu Butonu -->
+        <Frame Padding="20" BackgroundColor="Orange" CornerRadius="10" HasShadow="True" Grid.Row="1" Grid.Column="1">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnFeedbackButtonTapped"/>
+            </Frame.GestureRecognizers>
+            <VerticalStackLayout HeightRequest="90" WidthRequest="160" HorizontalOptions="Center">
+                <Image Source="inbox.png" WidthRequest="40" HeightRequest="40"/>
+                <Label Text="Geri Bildirimler" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+            </VerticalStackLayout>
+        </Frame>
+        
+        <!-- Stok Takibi Butonu -->
+        <Frame Padding="20" BackgroundColor="Orange" CornerRadius="10" HasShadow="True" Grid.Row="2" Grid.Column="0">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnStockButtonTapped"/>
+            </Frame.GestureRecognizers>
+            <VerticalStackLayout HeightRequest="90" WidthRequest="160" HorizontalOptions="Center">
+                <Image Source="stock.png" WidthRequest="40" HeightRequest="40"/>
+                <Label Text="Stok Takibi" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+            </VerticalStackLayout>
+        </Frame>
+        
+    </Grid>
+</ContentPage>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:KafeFirinMaui.Views"
+             x:Class="KafeFirinMaui.Views.CustomerMainMenu"
+             Title="Müşteri Ana Menü">
+
+    <Grid Padding="20" 
+          ColumnSpacing="20" RowSpacing="20"
+          HorizontalOptions="Fill" VerticalOptions="Fill">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Sipariş Ver Butonu -->
+        <Frame Padding="20" BackgroundColor="Orange" CornerRadius="10" HasShadow="True" Grid.Row="0" Grid.Column="0">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnOrderButtonTapped"/>
+            </Frame.GestureRecognizers>
+            <VerticalStackLayout HeightRequest="80" WidthRequest="160" HorizontalOptions="Center">
+                <Image Source="shopping_bag.png" WidthRequest="40" HeightRequest="40"/>
+                <Label Text="Sipariş Ver" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Personel Puanla Butonu -->
+        <Frame Padding="20" BackgroundColor="Orange" CornerRadius="10" HasShadow="True" Grid.Row="0" Grid.Column="1">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnStaffVotingButtonTapped"/>
+            </Frame.GestureRecognizers>
+            <VerticalStackLayout HeightRequest="80" WidthRequest="160" HorizontalOptions="Center">
+                <Image Source="user.png" WidthRequest="40" HeightRequest="40"/>
+                <Label Text="Personel Puanla" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Kafe Puanla Butonu -->
+        <Frame Padding="20" BackgroundColor="Orange" CornerRadius="10" HasShadow="True" Grid.Row="1" Grid.Column="0">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnStoreVotingButtonTapped"/>
+            </Frame.GestureRecognizers>
+            <VerticalStackLayout HeightRequest="80" WidthRequest="160" HorizontalOptions="Center">
+                <Image Source="store.png" WidthRequest="40" HeightRequest="40"/>
+                <Label Text="Kafe Puanla" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
+            </VerticalStackLayout>
+        </Frame>
+        <!-- Bilgilerimi Düzenle Butonu -->
+        <Frame Padding="20" BackgroundColor="Orange" CornerRadius="10" HasShadow="True" Grid.Row="1" Grid.Column="1">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnSettingsButtonTapped"/>
+            </Frame.GestureRecognizers>
+            <VerticalStackLayout HeightRequest="80" WidthRequest="160" HorizontalOptions="Center">
+                <Image Source="setting.png" WidthRequest="40" HeightRequest="40"/>
+                <Label Text="Bilgilerimi Düzenle" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
+            </VerticalStackLayout>
+        </Frame>
+    </Grid>
+</ContentPage>
