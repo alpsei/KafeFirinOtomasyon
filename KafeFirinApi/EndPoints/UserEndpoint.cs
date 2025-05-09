@@ -1,6 +1,6 @@
-﻿using KafeFirinApi.Data;
-using SharedClasses;
+﻿using SharedClass;
 using Microsoft.EntityFrameworkCore;
+using SharedClass.Classes;
 
 namespace KafeFirinApi.EndPoints
 {

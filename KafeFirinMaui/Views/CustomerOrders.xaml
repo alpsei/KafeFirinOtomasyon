@@ -1,14 +1,58 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="KafeFirinMaui.Views.CustomerOrders"
              Title="Sipariş">
-    <Grid Padding="20" ColumnSpacing="10" HorizontalOptions="Fill"
-          VerticalOptions="Fill">
+    <Grid Padding="10" ColumnSpacing="10">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        
+
+        <!-- Ürün Listesi (Sol Taraf) -->
+        <CollectionView Grid.Column="0"
+                        ItemsSource="{Binding Products}"
+                        SelectionMode="None">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="2" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Margin="5"
+                           Padding="10"
+                           CornerRadius="12"
+                           BorderColor="Gray"
+                           HasShadow="True"
+                           HeightRequest="150"
+                           WidthRequest="150">
+                        <StackLayout>
+                            <Label Text="{Binding ProductName}" FontAttributes="Bold" />
+                            <Label Text="{Binding Price, StringFormat='₺{0:F2}'}" />
+                            <Button Text="Sepete Ekle" Command="{Binding BindingContext.AddToCartCommand, Source={x:Reference Name=ProductList}}" CommandParameter="{Binding .}" />
+                        </StackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Sepet Bölümü (Sağ Taraf) -->
+        <Frame Grid.Column="1"
+               Padding="10"
+               BorderColor="Gray"
+               CornerRadius="12"
+               HasShadow="True">
+            <StackLayout>
+                <Label Text="Sepetiniz" FontSize="20" FontAttributes="Bold" />
+                <CollectionView ItemsSource="{Binding Cart}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Orientation="Horizontal" Spacing="10">
+                                <Label Text="{Binding ProductName}" />
+                                <Label Text="{Binding Price, StringFormat='₺{0:F2}'}" />
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+        </Frame>
     </Grid>
 </ContentPage>

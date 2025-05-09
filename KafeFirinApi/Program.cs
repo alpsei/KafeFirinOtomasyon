@@ -1,5 +1,3 @@
-
-using KafeFirinApi.Data;
 using Microsoft.EntityFrameworkCore;
 using KafeFirinApi.EndPoints;
 

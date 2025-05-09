@@ -54,7 +54,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SharedClasses\SharedClasses.csproj" />
+    <ProjectReference Include="..\SharedClass\SharedClass.csproj" />
   </ItemGroup>
 
   <ItemGroup>
