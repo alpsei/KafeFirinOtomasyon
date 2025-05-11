@@ -1,5 +1,4 @@
-﻿using SharedClasses;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SharedClass.Classes;
 
 namespace KafeFirinApi.EndPoints
@@ -8,22 +7,31 @@ namespace KafeFirinApi.EndPoints
     {
         public static void MapProductEndpoints(this IEndpointRouteBuilder routes)
         {
+            // Tüm ürünleri getir (Category bilgisiyle birlikte)
             routes.MapGet("/api/products", async (AppDbContext db) =>
             {
-                var products = await db.Products.Include(p => p.ProductID).ToListAsync();
+                var products = await db.Products
+                    .ToListAsync();
                 return Results.Ok(products);
             });
+
+            // ID'ye göre tek bir ürün getir
             routes.MapGet("/api/products/{id}", async (int id, AppDbContext db) =>
             {
-                var product = await db.Products.Include(p => p.ProductID).FirstOrDefaultAsync(p => p.ProductID == id);
+                var product = await db.Products
+                    .FirstOrDefaultAsync(p => p.ProductID == id);
                 return product is not null ? Results.Ok(product) : Results.NotFound();
             });
+
+            // Yeni ürün ekle
             routes.MapPost("/api/products", async (Products product, AppDbContext db) =>
             {
                 db.Products.Add(product);
                 await db.SaveChangesAsync();
                 return Results.Created($"/api/products/{product.ProductID}", product);
             });
+
+            // Ürün sil
             routes.MapDelete("/api/products/{id}", async (int id, AppDbContext db) =>
             {
                 var product = await db.Products.FindAsync(id);
@@ -35,6 +43,8 @@ namespace KafeFirinApi.EndPoints
                 await db.SaveChangesAsync();
                 return Results.NoContent();
             });
+
+            // Ürün güncelle
             routes.MapPut("/api/products/{id}", async (int id, Products updatedProduct, AppDbContext db) =>
             {
                 var product = await db.Products.FindAsync(id);

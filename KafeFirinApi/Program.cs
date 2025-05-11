@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using KafeFirinApi.EndPoints;
+using SharedClass.Classes;
 
 namespace KafeFirinApi
 {
@@ -41,8 +42,6 @@ namespace KafeFirinApi
             RateEnpoint.MapRateEndpoints(app);
             FeedBackEndpoint.MapFeedBackEndpoints(app);
             FavoriteEndpoint.MapFavoriteEndpoints(app);
-
-            app.MapControllers();
 
             app.Run();
         }

@@ -13,12 +13,17 @@ namespace SharedClass.Classes
     {
         [Key]
         public int FavID { get; set; }
-        [ForeignKey("Users")]
+
         public int CustomerID { get; set; }
-        [ForeignKey("Products")]
         public int ProductID { get; set; }
 
+        [ForeignKey(nameof(CustomerID))]
+        [InverseProperty("CustomerFav")]
         [JsonIgnore]
         public virtual Users Customer { get; set; }
+
+        [ForeignKey(nameof(ProductID))]
+        public virtual Products Product { get; set; }
     }
+
 }

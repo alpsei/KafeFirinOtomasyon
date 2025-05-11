@@ -3,29 +3,14 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace KafeFirinApi.Migrations
+namespace SharedClass.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdatedMigration : Migration
+    public partial class KafeFirinDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "OrderDetails",
-                columns: table => new
-                {
-                    DetailID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderID = table.Column<int>(type: "int", nullable: false),
-                    ProductID = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OrderDetails", x => x.DetailID);
-                });
-
             migrationBuilder.CreateTable(
                 name: "ProductCategory",
                 columns: table => new
@@ -37,22 +22,6 @@ namespace KafeFirinApi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProductCategory", x => x.CategoryID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Products",
-                columns: table => new
-                {
-                    ProductID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    Stock = table.Column<int>(type: "int", nullable: false),
-                    CategoryID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Products", x => x.ProductID);
                 });
 
             migrationBuilder.CreateTable(
@@ -69,14 +38,37 @@ namespace KafeFirinApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    ProductID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    Stock = table.Column<int>(type: "int", nullable: false),
+                    CategoryID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.ProductID);
+                    table.ForeignKey(
+                        name: "FK_Products_ProductCategory_CategoryID",
+                        column: x => x.CategoryID,
+                        principalTable: "ProductCategory",
+                        principalColumn: "CategoryID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
                     UserID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UPassword = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SecQuestion = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SecAnswer = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -90,7 +82,7 @@ namespace KafeFirinApi.Migrations
                         column: x => x.RoleID,
                         principalTable: "Roles",
                         principalColumn: "RoleId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -105,6 +97,12 @@ namespace KafeFirinApi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Favorites", x => x.FavID);
+                    table.ForeignKey(
+                        name: "FK_Favorites_Products_ProductID",
+                        column: x => x.ProductID,
+                        principalTable: "Products",
+                        principalColumn: "ProductID",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Favorites_Users_CustomerID",
                         column: x => x.CustomerID,
@@ -122,7 +120,7 @@ namespace KafeFirinApi.Migrations
                     CustomerID = table.Column<int>(type: "int", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FBDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ReadReceipt = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ReadReceipt = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -131,8 +129,7 @@ namespace KafeFirinApi.Migrations
                         name: "FK_FeedBacks_Users_CustomerID",
                         column: x => x.CustomerID,
                         principalTable: "Users",
-                        principalColumn: "UserID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "UserID");
                 });
 
             migrationBuilder.CreateTable(
@@ -155,14 +152,12 @@ namespace KafeFirinApi.Migrations
                         name: "FK_Orders_Users_CustomerID",
                         column: x => x.CustomerID,
                         principalTable: "Users",
-                        principalColumn: "UserID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "UserID");
                     table.ForeignKey(
                         name: "FK_Orders_Users_StaffID",
                         column: x => x.StaffID,
                         principalTable: "Users",
-                        principalColumn: "UserID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "UserID");
                 });
 
             migrationBuilder.CreateTable(
@@ -182,14 +177,39 @@ namespace KafeFirinApi.Migrations
                         name: "FK_Rates_Users_CustomerID",
                         column: x => x.CustomerID,
                         principalTable: "Users",
-                        principalColumn: "UserID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "UserID");
                     table.ForeignKey(
                         name: "FK_Rates_Users_StaffID",
                         column: x => x.StaffID,
                         principalTable: "Users",
-                        principalColumn: "UserID",
+                        principalColumn: "UserID");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderDetails",
+                columns: table => new
+                {
+                    DetailID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderID = table.Column<int>(type: "int", nullable: false),
+                    ProductID = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderDetails", x => x.DetailID);
+                    table.ForeignKey(
+                        name: "FK_OrderDetails_Orders_OrderID",
+                        column: x => x.OrderID,
+                        principalTable: "Orders",
+                        principalColumn: "OrderID",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrderDetails_Products_ProductID",
+                        column: x => x.ProductID,
+                        principalTable: "Products",
+                        principalColumn: "ProductID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -198,9 +218,24 @@ namespace KafeFirinApi.Migrations
                 column: "CustomerID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Favorites_ProductID",
+                table: "Favorites",
+                column: "ProductID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_FeedBacks_CustomerID",
                 table: "FeedBacks",
                 column: "CustomerID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderDetails_OrderID",
+                table: "OrderDetails",
+                column: "OrderID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderDetails_ProductID",
+                table: "OrderDetails",
+                column: "ProductID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_CustomerID",
@@ -211,6 +246,11 @@ namespace KafeFirinApi.Migrations
                 name: "IX_Orders_StaffID",
                 table: "Orders",
                 column: "StaffID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_CategoryID",
+                table: "Products",
+                column: "CategoryID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rates_CustomerID",
@@ -241,19 +281,19 @@ namespace KafeFirinApi.Migrations
                 name: "OrderDetails");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "Rates");
 
             migrationBuilder.DropTable(
-                name: "ProductCategory");
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Rates");
+                name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "ProductCategory");
 
             migrationBuilder.DropTable(
                 name: "Roles");

@@ -1,5 +1,7 @@
+using KafeFirinMaui.Helpers;
 using KafeFirinMaui.Services;
 using Windows.System;
+using SharedClass.Classes;
 
 namespace KafeFirinMaui.Views;
 
@@ -20,6 +22,13 @@ public partial class UserLogin : ContentPage
             var user = await userService.UserLogin(usernameEntry.Text, passwordEntry.Text);
             DisplayAlert("Bilgi", "Kullanýcý giriþi baþarýlý!", "Tamam");
             int rolId = user.RoleID;
+            if (Session.LoggedInUser == null)
+            {
+                Session.LoggedInUser = new Users();
+            }
+            Session.LoggedInUser.UserID = user.UserID;
+            Session.LoggedInUser.RoleID = rolId;
+            Console.WriteLine("Giriþ yapan ID: " + Session.LoggedInUser.UserID);
             switch (rolId)
             {
                 case 1:

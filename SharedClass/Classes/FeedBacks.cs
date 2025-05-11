@@ -13,13 +13,17 @@ namespace SharedClass.Classes
     {
         [Key]
         public int FeedBackID { get; set; }
-        [ForeignKey("Users")]
+
         public int CustomerID { get; set; }
+
         public string Content { get; set; }
         public DateTime FBDate { get; set; } = DateTime.Now;
         public bool ReadReceipt { get; set; } = false;
 
+        [ForeignKey(nameof(CustomerID))]
+        [InverseProperty("CustomerFB")]
         [JsonIgnore]
         public virtual Users Customer { get; set; }
     }
+
 }

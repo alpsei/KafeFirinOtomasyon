@@ -1,7 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:KafeFirinMaui.ViewModels"
              x:Class="KafeFirinMaui.Views.CustomerOrders"
              Title="Sipariş">
+
     <Grid Padding="10" ColumnSpacing="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*" />
@@ -9,8 +12,9 @@
         </Grid.ColumnDefinitions>
 
         <!-- Ürün Listesi (Sol Taraf) -->
-        <CollectionView Grid.Column="0"
-                        ItemsSource="{Binding Products}"
+        <CollectionView x:Name="ProductListView"
+                        Grid.Column="0"
+                        ItemsSource="{Binding ProductList}"
                         SelectionMode="None">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Vertical" Span="2" />
@@ -27,7 +31,9 @@
                         <StackLayout>
                             <Label Text="{Binding ProductName}" FontAttributes="Bold" />
                             <Label Text="{Binding Price, StringFormat='₺{0:F2}'}" />
-                            <Button Text="Sepete Ekle" Command="{Binding BindingContext.AddToCartCommand, Source={x:Reference Name=ProductList}}" CommandParameter="{Binding .}" />
+                            <Button Text="Sepete Ekle"
+                                    Command="{Binding BindingContext.AddToCartCommand, Source={x:Reference ProductListView}}"
+                                    CommandParameter="{Binding .}" />
                         </StackLayout>
                     </Frame>
                 </DataTemplate>
@@ -36,10 +42,10 @@
 
         <!-- Sepet Bölümü (Sağ Taraf) -->
         <Frame Grid.Column="1"
-               Padding="10"
-               BorderColor="Gray"
-               CornerRadius="12"
-               HasShadow="True">
+       Padding="10"
+       BorderColor="Gray"
+       CornerRadius="12"
+       HasShadow="True">
             <StackLayout>
                 <Label Text="Sepetiniz" FontSize="20" FontAttributes="Bold" />
                 <CollectionView ItemsSource="{Binding Cart}">
@@ -52,7 +58,10 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
+                <Button Text="Sipariş Ver"
+                Command="{Binding OrderCommand}" />
             </StackLayout>
         </Frame>
+
     </Grid>
 </ContentPage>

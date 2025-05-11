@@ -1,6 +1,6 @@
 using KafeFirinMaui.Services;
 using Microsoft.Extensions.Logging;
-using SharedClasses;
+using SharedClass.Classes;
 
 namespace KafeFirinMaui.Views;
 
@@ -16,7 +16,8 @@ public partial class CustomerRegister : ContentPage
     private async void RegisterOnClicked(object sender, EventArgs e)
     {
         string username = usernameEntry.Text;
-        string fullName = nameEntry.Text + " " + surnameEntry.Text;
+        string firstName = nameEntry.Text;
+        string lastName = surnameEntry.Text;
         string password = passwordEntry.Text;
         string email = emailEntry.Text;
         string? secQuestion = secQuestionPicker.SelectedItem.ToString();
@@ -25,7 +26,8 @@ public partial class CustomerRegister : ContentPage
         Users newUser = new Users
         {
             Username = username,
-            FullName = fullName,
+            FirstName = firstName,
+            LastName = lastName,
             Password = password,
             Email = email,
             SecQuestion = secQuestion,

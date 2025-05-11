@@ -8,6 +8,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -46,5 +47,17 @@
                     <Label Text="Stokları Görüntüle" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
                 </VerticalStackLayout>
             </Frame>
+        <!-- Çıkış Yap butonu -->
+        <VerticalStackLayout Grid.Row="2" Grid.ColumnSpan="2" HorizontalOptions="Center" VerticalOptions="End">
+            <Frame Padding="20" BackgroundColor="Orange" CornerRadius="10" HasShadow="True" Grid.Row="1" Grid.Column="1">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnLogoutButtonTapped"/>
+                </Frame.GestureRecognizers>
+                <VerticalStackLayout HeightRequest="80" WidthRequest="160" HorizontalOptions="Center">
+                    <Image Source="logout.png" WidthRequest="40" HeightRequest="40"/>
+                    <Label Text="Çıkış Yap" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
+                </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
     </Grid>
 </ContentPage>

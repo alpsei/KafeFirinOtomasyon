@@ -12,10 +12,16 @@ namespace SharedClass.Classes
     {
         [Key]
         public int DetailID { get; set; }
-        [ForeignKey("Orders")]
+
         public int OrderID { get; set; }
-        [ForeignKey("Products")]
         public int ProductID { get; set; }
         public int Quantity { get; set; }
+
+        [ForeignKey(nameof(OrderID))]
+        public virtual Orders Order { get; set; }
+
+        [ForeignKey(nameof(ProductID))]
+        public virtual Products Product { get; set; }
     }
+
 }

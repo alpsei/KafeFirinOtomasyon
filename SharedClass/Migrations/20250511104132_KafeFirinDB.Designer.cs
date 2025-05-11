@@ -3,25 +3,28 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace KafeFirinApi.Migrations
+namespace SharedClass.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250511104132_KafeFirinDB")]
+    partial class KafeFirinDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.4")
+                .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("KafeFirinApi.Models.Favorites", b =>
+            modelBuilder.Entity("SharedClass.Classes.Favorites", b =>
                 {
                     b.Property<int>("FavID")
                         .ValueGeneratedOnAdd()
@@ -39,10 +42,12 @@ namespace KafeFirinApi.Migrations
 
                     b.HasIndex("CustomerID");
 
+                    b.HasIndex("ProductID");
+
                     b.ToTable("Favorites");
                 });
 
-            modelBuilder.Entity("KafeFirinApi.Models.FeedBacks", b =>
+            modelBuilder.Entity("SharedClass.Classes.FeedBacks", b =>
                 {
                     b.Property<int>("FeedBackID")
                         .ValueGeneratedOnAdd()
@@ -60,9 +65,8 @@ namespace KafeFirinApi.Migrations
                     b.Property<DateTime>("FBDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ReadReceipt")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("ReadReceipt")
+                        .HasColumnType("bit");
 
                     b.HasKey("FeedBackID");
 
@@ -71,7 +75,7 @@ namespace KafeFirinApi.Migrations
                     b.ToTable("FeedBacks");
                 });
 
-            modelBuilder.Entity("KafeFirinApi.Models.OrderDetails", b =>
+            modelBuilder.Entity("SharedClass.Classes.OrderDetails", b =>
                 {
                     b.Property<int>("DetailID")
                         .ValueGeneratedOnAdd()
@@ -90,10 +94,14 @@ namespace KafeFirinApi.Migrations
 
                     b.HasKey("DetailID");
 
+                    b.HasIndex("OrderID");
+
+                    b.HasIndex("ProductID");
+
                     b.ToTable("OrderDetails");
                 });
 
-            modelBuilder.Entity("KafeFirinApi.Models.Orders", b =>
+            modelBuilder.Entity("SharedClass.Classes.Orders", b =>
                 {
                     b.Property<int>("OrderID")
                         .ValueGeneratedOnAdd()
@@ -102,7 +110,8 @@ namespace KafeFirinApi.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderID"));
 
                     b.Property<int>("CustomerID")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("CustomerID");
 
                     b.Property<bool>("DiscountApplied")
                         .HasColumnType("bit");
@@ -130,7 +139,7 @@ namespace KafeFirinApi.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("KafeFirinApi.Models.ProductCategory", b =>
+            modelBuilder.Entity("SharedClass.Classes.ProductCategory", b =>
                 {
                     b.Property<int>("CategoryID")
                         .ValueGeneratedOnAdd()
@@ -147,7 +156,7 @@ namespace KafeFirinApi.Migrations
                     b.ToTable("ProductCategory");
                 });
 
-            modelBuilder.Entity("KafeFirinApi.Models.Products", b =>
+            modelBuilder.Entity("SharedClass.Classes.Products", b =>
                 {
                     b.Property<int>("ProductID")
                         .ValueGeneratedOnAdd()
@@ -170,10 +179,12 @@ namespace KafeFirinApi.Migrations
 
                     b.HasKey("ProductID");
 
+                    b.HasIndex("CategoryID");
+
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("KafeFirinApi.Models.Rates", b =>
+            modelBuilder.Entity("SharedClass.Classes.Rates", b =>
                 {
                     b.Property<int>("RateID")
                         .ValueGeneratedOnAdd()
@@ -199,7 +210,7 @@ namespace KafeFirinApi.Migrations
                     b.ToTable("Rates");
                 });
 
-            modelBuilder.Entity("KafeFirinApi.Models.Roles", b =>
+            modelBuilder.Entity("SharedClass.Classes.Roles", b =>
                 {
                     b.Property<int>("RoleId")
                         .ValueGeneratedOnAdd()
@@ -216,7 +227,7 @@ namespace KafeFirinApi.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("KafeFirinApi.Models.Users", b =>
+            modelBuilder.Entity("Users", b =>
                 {
                     b.Property<int>("UserID")
                         .ValueGeneratedOnAdd()
@@ -228,14 +239,17 @@ namespace KafeFirinApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FullName")
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("UPassword");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RoleID")
                         .HasColumnType("int");
@@ -259,40 +273,67 @@ namespace KafeFirinApi.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("KafeFirinApi.Models.Favorites", b =>
+            modelBuilder.Entity("SharedClass.Classes.Favorites", b =>
                 {
-                    b.HasOne("KafeFirinApi.Models.Users", "Customer")
+                    b.HasOne("Users", "Customer")
                         .WithMany("CustomerFav")
                         .HasForeignKey("CustomerID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SharedClass.Classes.Products", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Customer");
+
+                    b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("KafeFirinApi.Models.FeedBacks", b =>
+            modelBuilder.Entity("SharedClass.Classes.FeedBacks", b =>
                 {
-                    b.HasOne("KafeFirinApi.Models.Users", "Customer")
+                    b.HasOne("Users", "Customer")
                         .WithMany("CustomerFB")
                         .HasForeignKey("CustomerID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("KafeFirinApi.Models.Orders", b =>
+            modelBuilder.Entity("SharedClass.Classes.OrderDetails", b =>
                 {
-                    b.HasOne("KafeFirinApi.Models.Users", "Customer")
+                    b.HasOne("SharedClass.Classes.Orders", "Order")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SharedClass.Classes.Products", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("SharedClass.Classes.Orders", b =>
+                {
+                    b.HasOne("Users", "Customer")
                         .WithMany("CustomerOrder")
                         .HasForeignKey("CustomerID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("KafeFirinApi.Models.Users", "Staff")
+                    b.HasOne("Users", "Staff")
                         .WithMany("StaffOrder")
                         .HasForeignKey("StaffID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Customer");
@@ -300,18 +341,29 @@ namespace KafeFirinApi.Migrations
                     b.Navigation("Staff");
                 });
 
-            modelBuilder.Entity("KafeFirinApi.Models.Rates", b =>
+            modelBuilder.Entity("SharedClass.Classes.Products", b =>
                 {
-                    b.HasOne("KafeFirinApi.Models.Users", "Customer")
+                    b.HasOne("SharedClass.Classes.ProductCategory", "ProductCategory")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("ProductCategory");
+                });
+
+            modelBuilder.Entity("SharedClass.Classes.Rates", b =>
+                {
+                    b.HasOne("Users", "Customer")
                         .WithMany("CustomerRates")
                         .HasForeignKey("CustomerID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("KafeFirinApi.Models.Users", "Staff")
+                    b.HasOne("Users", "Staff")
                         .WithMany("StaffRates")
                         .HasForeignKey("StaffID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Customer");
@@ -319,23 +371,33 @@ namespace KafeFirinApi.Migrations
                     b.Navigation("Staff");
                 });
 
-            modelBuilder.Entity("KafeFirinApi.Models.Users", b =>
+            modelBuilder.Entity("Users", b =>
                 {
-                    b.HasOne("KafeFirinApi.Models.Roles", "Roles")
+                    b.HasOne("SharedClass.Classes.Roles", "Roles")
                         .WithMany("Users")
                         .HasForeignKey("RoleID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Roles");
                 });
 
-            modelBuilder.Entity("KafeFirinApi.Models.Roles", b =>
+            modelBuilder.Entity("SharedClass.Classes.Orders", b =>
+                {
+                    b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("SharedClass.Classes.ProductCategory", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("SharedClass.Classes.Roles", b =>
                 {
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("KafeFirinApi.Models.Users", b =>
+            modelBuilder.Entity("Users", b =>
                 {
                     b.Navigation("CustomerFB");
 

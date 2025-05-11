@@ -13,18 +13,23 @@ namespace SharedClass.Classes
     {
         [Key]
         public int OrderID { get; set; }
-        [ForeignKey("Users")]
+        [Column("CustomerID")]
         public int CustomerID { get; set; }
-        [ForeignKey("Users")]
         public int StaffID { get; set; }
         public string OrderStatus { get; set; } = "Hazırlanıyor";
         public string OrderNote { get; set; }
         public DateTime OrderDate { get; set; } = DateTime.Now;
         public bool DiscountApplied { get; set; } = false;
 
+        [ForeignKey(nameof(CustomerID))]
         [JsonIgnore]
         public virtual Users Customer { get; set; }
+
+        [ForeignKey(nameof(StaffID))]
         [JsonIgnore]
         public virtual Users Staff { get; set; }
+
+        public virtual ICollection<OrderDetails> OrderDetails { get; set; } // Siparişe ait ürün detayları
     }
+
 }

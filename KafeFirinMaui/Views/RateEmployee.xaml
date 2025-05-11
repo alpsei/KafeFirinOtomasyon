@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KafeFirinMaui.Views.RateEmployee"
+             Title="Personel Puanlama">
+    <VerticalStackLayout Padding="20">
+        <CollectionView x:Name="EmployeeList"
+                        ItemsSource="{Binding Employees}"
+                        SelectionMode="Single"
+                        SelectionChanged="EmployeeList_SelectionChanged">
+            
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+            </CollectionView.ItemsLayout>
+            
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BorderColor="Gray" Padding="10" Margin="5" BackgroundColor="DarkOrange">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding UserID}" 
+                                   FontSize="Medium" 
+                                   TextColor="White"/>
+                            <Label Text="{Binding FullName}" 
+                                   FontSize="Medium" 
+                                   TextColor="White"/>
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        
+        <Grid x:Name="DetailPanel" IsVisible="False" Padding="10" BackgroundColor="LightGray">
+            <VerticalStackLayout>
+                <Label Text="Detaylar" FontAttributes="Bold" />
+                <Label x:Name="DetailEmployeeID" />
+                <Label x:Name="DetailEmployeeFullName"/>
+            </VerticalStackLayout>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>

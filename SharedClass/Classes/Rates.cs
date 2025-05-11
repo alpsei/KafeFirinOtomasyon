@@ -13,16 +13,20 @@ namespace SharedClass.Classes
     {
         [Key]
         public int RateID { get; set; }
-        [ForeignKey("Users")]
+
         public int CustomerID { get; set; }
-        [ForeignKey("Users")]
         public int StaffID { get; set; }
         public int Rate { get; set; }
 
+        [ForeignKey(nameof(CustomerID))]
+        [InverseProperty("CustomerRates")]
         [JsonIgnore]
         public virtual Users Customer { get; set; }
+
+        [ForeignKey(nameof(StaffID))]
+        [InverseProperty("StaffRates")]
         [JsonIgnore]
         public virtual Users Staff { get; set; }
-
     }
+
 }

@@ -1,5 +1,4 @@
-﻿using SharedClasses;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SharedClass.Classes;
 
 namespace KafeFirinApi.EndPoints

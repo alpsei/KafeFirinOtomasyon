@@ -21,4 +21,10 @@ public partial class StaffMainMenu : ContentPage
     {
 
     }
+    private async void OnLogoutButtonTapped(object sender, EventArgs e)
+    {
+        DisplayAlert("Çýkýþ Yap", "Çýkýþ yaptýnýz.", "Tamam");
+        await Shell.Current.Navigation.PopToRootAsync();
+        await Shell.Current.GoToAsync("//UserLogin");
+    }
 }

@@ -1,4 +1,6 @@
-using SharedClasses;
+using ABI.System.Collections.Generic;
+using KafeFirinMaui.ViewModels;
+using SharedClass.Classes;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
@@ -7,28 +9,18 @@ namespace KafeFirinMaui.Views;
 
 public partial class CustomerOrders : ContentPage
 {
-    public ObservableCollection<Products> Products { get; set; }
-    public ObservableCollection<Products> Cart { get; set; }
-
-    public ICommand AddToCartCommand { get; set; }
-    public CustomerOrders()
+    private readonly CustomerOrdersViewModel _viewModel;
+    public CustomerOrders(CustomerOrdersViewModel viewModel)
     {
         InitializeComponent();
-        Products = new ObservableCollection<Products>(GetProductsFromDatabase());
-        Cart = new ObservableCollection<Products>();
-
-        AddToCartCommand = new Command<Products>((product) =>
-        {
-            Cart.Add(product);
-        });
+        _viewModel = viewModel;
+        BindingContext = _viewModel;
     }
-    private List<Products> GetProductsFromDatabase()
+
+    protected override async void OnAppearing()
     {
-        using (var db = new AppDb())
-        {
-            return db.Products.ToList();
-        }
+        base.OnAppearing();
+        await _viewModel.LoadProductsAsync();
     }
 
-    public event PropertyChangedEventHandler PropertyChanged;
 }

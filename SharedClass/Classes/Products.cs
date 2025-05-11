@@ -12,11 +12,18 @@ namespace SharedClass.Classes
     {
         [Key]
         public int ProductID { get; set; }
+
         public string ProductName { get; set; }
+
         [Column(TypeName = "decimal(10,2)")]
         public decimal Price { get; set; }
+
         public int Stock { get; set; }
-        [ForeignKey("ProductCategory")]
+
         public int CategoryID { get; set; }
+
+        [ForeignKey(nameof(CategoryID))]
+        public virtual ProductCategory ProductCategory { get; set; }
     }
+
 }
