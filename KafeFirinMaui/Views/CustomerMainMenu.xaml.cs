@@ -15,9 +15,9 @@ public partial class CustomerMainMenu : ContentPage
     }
     private async void OnStaffVotingButtonTapped(object sender, EventArgs e)
     {
-        var rateEmployee= App.Services.GetService<RateEmployee>();
-        if (rateEmployee != null)
-            await Navigation.PushAsync(rateEmployee);
+        var rateEmployeePage = App.Services.GetService<EmployeeRateList>();
+        if (rateEmployeePage != null)
+            await Navigation.PushAsync(rateEmployeePage);
     }
     private async void OnHistoryButtonTapped(object sender, EventArgs e)
     {
@@ -30,6 +30,13 @@ public partial class CustomerMainMenu : ContentPage
         var userSettings = App.Services.GetService<UserSettings>();
         if (userSettings != null)
             await Navigation.PushAsync(userSettings);
+    }
+    
+    private async void OnFeedbackButtonTapped(object sender, EventArgs e)
+    {
+        var customerFeedback = App.Services.GetService<CustomerFeedback>();
+        if (customerFeedback != null)
+            await Navigation.PushAsync(customerFeedback);
     }
     private async void OnLogoutButtonTapped(object sender, EventArgs e)
     {

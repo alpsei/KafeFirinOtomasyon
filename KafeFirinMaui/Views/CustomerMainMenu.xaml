@@ -11,6 +11,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -59,10 +60,20 @@
                 <Image Source="setting.png" WidthRequest="40" HeightRequest="40"/>
                 <Label Text="Bilgilerimi Düzenle" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
             </VerticalStackLayout>
+        </Frame>
+        <!-- Geri bildirim butonu -->
+        <Frame Padding="20" BackgroundColor="Orange" CornerRadius="10" HasShadow="True" Grid.Row="2" Grid.Column="0">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnFeedbackButtonTapped"/>
+            </Frame.GestureRecognizers>
+            <VerticalStackLayout HeightRequest="80" WidthRequest="160" HorizontalOptions="Center">
+                <Image Source="inbox.png" WidthRequest="40" HeightRequest="40"/>
+                <Label Text="Geri Bildirim Gönder" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
+            </VerticalStackLayout>
         </Frame>        
         <!-- Çıkış Yap butonu -->
-        <VerticalStackLayout Grid.Row="2" Grid.ColumnSpan="2" HorizontalOptions="Center" VerticalOptions="End">
-            <Frame Padding="20" BackgroundColor="Orange" CornerRadius="10" HasShadow="True" Grid.Row="1" Grid.Column="1">
+        <VerticalStackLayout Grid.Row="3" Grid.ColumnSpan="2" HorizontalOptions="Center" VerticalOptions="End">
+            <Frame Padding="20" BackgroundColor="Orange" CornerRadius="10" HasShadow="True" Grid.Row="3" Grid.Column="1">
                 <Frame.GestureRecognizers>
                     <TapGestureRecognizer Tapped="OnLogoutButtonTapped"/>
                 </Frame.GestureRecognizers>

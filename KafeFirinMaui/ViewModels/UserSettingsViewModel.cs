@@ -16,7 +16,7 @@ namespace KafeFirinMaui.ViewModels
     public class UserSettingsViewModel : INotifyPropertyChanged
     {
         private readonly UserService _userService;
-        public Users _user;
+        private Users _user;
         public ICommand UpdateCommand => new Command(async () => await UpdateUserInfoAsync());
 
         public Users User
@@ -55,7 +55,7 @@ namespace KafeFirinMaui.ViewModels
         {
             try
             {
-                var result = await _userService.UpdateUsersAsync(User);
+                var result = await _userService.UpdateUsersAsync(_user);
                 if (result)
                 {
                     await App.Current.MainPage.DisplayAlert("Başarılı", "Kullanıcı bilgileri güncellendi.", "Tamam");

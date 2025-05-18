@@ -2,8 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:KafeFirinMaui.ViewModels"
-             x:Class="KafeFirinMaui.Views.CustomerOrders"
-             Title="Sipariş">
+             x:Class="KafeFirinMaui.Views.ProductStock"
+             Title="Stok Takip">
 
     <Grid Padding="10" ColumnSpacing="10">
         <Grid.ColumnDefinitions>
@@ -35,8 +35,9 @@
                         <StackLayout>
                             <Label Text="{Binding ProductName}" FontAttributes="Bold" />
                             <Label Text="{Binding Price, StringFormat='₺{0:F2}'}" />
-                            <Button Text="Sepete Ekle"
-                                    Command="{Binding BindingContext.AddToCartCommand, Source={x:Reference ProductListView}}"
+                            <Label Text="{Binding Stock}" FontAttributes="Italic" />
+                            <Button Text="Ekle"
+                                    Command="{Binding BindingContext.UpdateStockCommand, Source={x:Reference ProductListView}}"
                                     CommandParameter="{Binding .}" />
                         </StackLayout>
                     </Frame>
@@ -44,28 +45,28 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <!-- Sepet Bölümü (Sağ Taraf) -->
+        <!-- Stok Bilgisi ve Sipariş Verme (Sağ Taraf) -->
         <Frame Grid.Column="1"
-       Padding="10"
-       BorderColor="Gray"
-       CornerRadius="12"
-       HasShadow="True">
+               Padding="10"
+               BorderColor="Gray"
+               CornerRadius="12"
+               HasShadow="True">
             <StackLayout>
-                <Label Text="Sepetiniz" FontSize="20" FontAttributes="Bold" />
-                <CollectionView ItemsSource="{Binding Cart}">
+                <Label Text="Stok Durumu" FontSize="20" FontAttributes="Bold" />
+                <CollectionView ItemsSource="{Binding StockInfo}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <StackLayout Orientation="Horizontal" Spacing="10">
                                 <Label Text="{Binding ProductName}" />
-                                <Label Text="{Binding Price, StringFormat='₺{0:F2}'}" />
+                                <Label Text="{Binding Stock, StringFormat='{0} adet'}" />
                             </StackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-                <Button Text="Sipariş Ver"
-                Command="{Binding OrderCommand}" />
+                <Button Text="Stokları Güncelle"
+                        Command="{Binding UpdateStockCommand}" />
             </StackLayout>
         </Frame>
-
     </Grid>
+
 </ContentPage>

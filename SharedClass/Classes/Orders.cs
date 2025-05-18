@@ -16,8 +16,8 @@ namespace SharedClass.Classes
         [Column("CustomerID")]
         public int CustomerID { get; set; }
         public int StaffID { get; set; }
-        public string OrderStatus { get; set; } = "Hazırlanıyor";
-        public string OrderNote { get; set; }
+        public string OrderStatus { get; set; } = "Onay Bekliyor";
+        public string? OrderNote { get; set; }
         public DateTime OrderDate { get; set; } = DateTime.Now;
         public bool DiscountApplied { get; set; } = false;
 

@@ -49,8 +49,8 @@ namespace KafeFirinMaui.ViewModels
                 {
                     CustomerID = Session.LoggedInUser.UserID, 
                     StaffID = 2,   
-                    OrderStatus = "Hazırlanıyor",
-                    OrderNote = this.OrderNote
+                    OrderStatus = "Onay Bekliyor",
+                    OrderNote = ""
                 },
                 OrderDetails = new List<OrderDetails>()
             };

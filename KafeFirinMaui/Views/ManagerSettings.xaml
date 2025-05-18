@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KafeFirinMaui.Views.ManagerSettings"
+             Title="ManagerSettings">
+    <Grid Padding="20" RowSpacing="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <VerticalStackLayout Grid.Row="0"
+                         VerticalOptions="Center"
+                         HorizontalOptions="Center"
+                         Spacing="15">
+
+            <HorizontalStackLayout Spacing="50">
+                <!-- Ad -->
+                <HorizontalStackLayout Spacing="10">
+                    <Label Text="Ad:" WidthRequest="80" VerticalOptions="Center"/>
+                    <Entry WidthRequest="200" Text="{Binding User.FirstName}"/>
+                </HorizontalStackLayout>
+
+
+                <!-- Soyad -->
+                <HorizontalStackLayout Spacing="10">
+                    <Label Text="Soyad:" WidthRequest="80" VerticalOptions="Center"/>
+                    <Entry Text="{Binding User.LastName}" WidthRequest="200"/>
+                </HorizontalStackLayout>
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout Spacing="50">
+                <!-- E-Posta -->
+                <HorizontalStackLayout Spacing="10">
+                    <Label Text="E-Posta:" WidthRequest="80" VerticalOptions="Center"/>
+                    <Entry Text="{Binding User.Email}" WidthRequest="200"/>
+                </HorizontalStackLayout>
+
+                <!-- Şifre -->
+                <HorizontalStackLayout Spacing="10">
+                    <Label Text="Şifre:" WidthRequest="80" VerticalOptions="Center"/>
+                    <Entry Text="{Binding User.Password}" WidthRequest="200"/>
+                </HorizontalStackLayout>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+
+
+        <!-- Güncelle butonu -->
+        <VerticalStackLayout Grid.Row="1"
+                         VerticalOptions="End"
+                         HorizontalOptions="Center">
+            <Button x:Name="updateButton"
+                Text="Bilgileri Güncelle"
+                BackgroundColor="Orange"
+                WidthRequest="200"
+                Command="{Binding UpdateCommand}"/>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

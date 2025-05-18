@@ -19,7 +19,9 @@ public partial class StaffMainMenu : ContentPage
     // Stok butonu fonksiyonu
     private async void OnStocksButtonTapped(object sender, EventArgs e)
     {
-
+        var productStock = App.Services.GetService<ProductStock>();
+        if (productStock != null)
+            await Navigation.PushAsync(productStock);
     }
     private async void OnLogoutButtonTapped(object sender, EventArgs e)
     {

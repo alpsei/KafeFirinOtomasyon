@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KafeFirinMaui.Views.RateEmployee"
-             Title="Personel Puan Listesi">
+             x:Class="KafeFirinMaui.Views.SalaryManagement"
+             Title="Personel Maaş Zammı/Kesintisi">
     <VerticalStackLayout Padding="20">
         <CollectionView x:Name="EmployeeList"
-                        ItemsSource="{Binding EmployeeVM.Employees}"
-                        SelectionMode="Single"
-                        SelectionChanged="EmployeeList_SelectionChanged">
-            
+                      ItemsSource="{Binding Employees}"
+                      SelectionMode="Single"
+                      SelectionChanged="EmployeeList_SelectionChanged">
+
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
             </CollectionView.ItemsLayout>
-            
+
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Frame BorderColor="Gray" Padding="10" Margin="5" BackgroundColor="DarkOrange">
                         <HorizontalStackLayout Spacing="10">
-
+                            
                             <Label Text="ID:"
                                  FontSize="Medium" 
-                                 TextColor="White"/>
+                                 TextColor="White"/> 
                             <Label Text="{Binding UserID}" 
                                  FontSize="Medium" 
                                  TextColor="White"/>
@@ -39,20 +39,30 @@
                             <Label Text="Maaş:"
                                  FontSize="Medium" 
                                  TextColor="White"/>
+                            <Label Text="{Binding Salary}" 
+                                 FontSize="Medium" 
+                                 TextColor="White"/>
                         </HorizontalStackLayout>
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        
-        <Grid x:Name="DetailPanel" IsVisible="False" Padding="10" BackgroundColor="LightGray">
-            <VerticalStackLayout>
-                <Label Text="Detaylar" FontAttributes="Bold" />
-                <Label x:Name="DetailEmployeeID"/>
-                <Label x:Name="DetailEmployeeFirstName"/>
-                <Label x:Name="DetailEmployeeLastName"/>
-                <Label x:Name="DetailEmployeeAvgRate"/>
-            </VerticalStackLayout>
+
+        <Grid x:Name="DetailPanel" IsVisible="False" Padding="10" BackgroundColor="#a13a0e">
+            <HorizontalStackLayout Spacing="20">
+                <Label Text="Maaş:" WidthRequest="80" VerticalOptions="Center"/>
+                <Entry x:Name="DetailEmployeeSalary" WidthRequest="200" Text="{Binding Employees.Salary}"/>
+                <Label Text="₺" WidthRequest="80" VerticalOptions="Center"/>
+                <Button x:Name="updateSalaryButton"
+                        Text="Güncelle"
+                        TextColor="White"
+                        BackgroundColor="#a13a0e"
+                        BorderWidth="2"
+                        BorderColor="White"
+                        WidthRequest="200"
+                        CornerRadius="10"
+                        Command="{Binding UpdateSalaryCommand}"/>
+            </HorizontalStackLayout>
         </Grid>
     </VerticalStackLayout>
 </ContentPage>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KafeFirinMaui.Views.EmployeeRateList"
+             Title="Personel Puanlama">
+    <VerticalStackLayout Padding="20">
+        <CollectionView x:Name="EmployeeList"
+                        ItemsSource="{Binding EmployeeVM.Employees}"
+                        SelectionMode="Single"
+                        SelectionChanged="EmployeeList_SelectionChanged">
+
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BorderColor="Gray" Padding="10" Margin="5" BackgroundColor="DarkOrange">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding UserID}" 
+                                   FontSize="Medium" 
+                                   TextColor="White"/>
+                            <Label Text="{Binding FirstName}" 
+                                   FontSize="Medium" 
+                                   TextColor="White"/>
+                            <Label Text="{Binding LastName}" 
+                                   FontSize="Medium" 
+                                   TextColor="White"/>
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Grid x:Name="DetailPanel" IsVisible="False" Padding="10" BackgroundColor="LightGray">
+            <VerticalStackLayout>
+                <Label Text="Detaylar" FontAttributes="Bold" />
+                <Label x:Name="DetailEmployeeID" />
+                <Label x:Name="DetailEmployeeFullName"/>
+                <HorizontalStackLayout Spacing="5" Margin="0,10,0,0" x:Name="RatingStars">
+                    <ImageButton Source="star.png" WidthRequest="30" HeightRequest="30" Clicked="OnStarClicked" CommandParameter="1"/>
+                    <ImageButton Source="star.png" WidthRequest="30" HeightRequest="30" Clicked="OnStarClicked" CommandParameter="2"/>
+                    <ImageButton Source="star.png" WidthRequest="30" HeightRequest="30" Clicked="OnStarClicked" CommandParameter="3"/>
+                    <ImageButton Source="star.png" WidthRequest="30" HeightRequest="30" Clicked="OnStarClicked" CommandParameter="4"/>
+                    <ImageButton Source="star.png" WidthRequest="30" HeightRequest="30" Clicked="OnStarClicked" CommandParameter="5"/>
+                    <Button x:Name="sendRateButton"
+                        Text="Puanla"
+                        TextColor="White"
+                        BackgroundColor="#a13a0e"
+                        BorderWidth="2"
+                        BorderColor="White"
+                        WidthRequest="200"
+                        CornerRadius="10"
+                        Clicked="OnSendRateClicked"/>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>

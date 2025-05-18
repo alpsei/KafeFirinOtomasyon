@@ -53,7 +53,7 @@
         </Frame>
         
         <!-- Personelleri ve Puanları Listeleme Butonu -->
-        <Frame Padding="20" BackgroundColor="Orange" CornerRadius="10" HasShadow="True" Grid.Row="1" Grid.Column="1">
+        <Frame Padding="20" BackgroundColor="Orange" CornerRadius="10" HasShadow="True" Grid.Row="2" Grid.Column="1">
             <Frame.GestureRecognizers>
                 <TapGestureRecognizer Tapped="OnEmployeeRatesButtonTapped"/>
             </Frame.GestureRecognizers>

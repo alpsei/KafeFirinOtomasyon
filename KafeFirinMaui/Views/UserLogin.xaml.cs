@@ -55,12 +55,42 @@ public partial class UserLogin : ContentPage
     {
         try
         {
-            await Shell.Current.GoToAsync("///CustomerRegister");
+            var customerRegister = App.Services.GetService<CustomerRegister>();
+            if (customerRegister != null)
+                await Navigation.PushAsync(customerRegister);
+
         }
         catch (Exception ex)
         {
             await App.Current.MainPage.DisplayAlert("Hata", $"Sayfaya geçiþ yapýlamadý: {ex.Message}", "Tamam");
         }
 
+    }
+    private async void OnForgotPasswordLabelTapped(object sender, EventArgs e)
+    {
+        try
+        {
+            var forgotYourPassword = App.Services.GetService<ForgotYourPassword>();
+            if (forgotYourPassword != null)
+                await Navigation.PushAsync(forgotYourPassword);
+
+        }
+        catch (Exception ex)
+        {
+            await App.Current.MainPage.DisplayAlert("Hata", $"Sayfaya geçiþ yapýlamadý: {ex.Message}", "Tamam");
+        }
+
+    }
+
+    private void showPasswordCheckbox_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+        if (e.Value)
+        {
+            passwordEntry.IsPassword = false;
+        }
+        else
+        {
+            passwordEntry.IsPassword = true;
+        }
     }
 }

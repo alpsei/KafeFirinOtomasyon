@@ -1,19 +1,17 @@
 using KafeFirinMaui.Services;
-using Microsoft.Extensions.Logging;
-using SharedClass.Classes;
 
 namespace KafeFirinMaui.Views;
 
-public partial class CustomerRegister : ContentPage
+public partial class EmployeeAddOrRemove : ContentPage
 {
     private readonly UserService _userService;
-    public CustomerRegister(UserService userService)
+    public EmployeeAddOrRemove(UserService userService)
     {
         InitializeComponent();
         _userService = userService;
-    }
+     }
 
-    private async void RegisterOnClicked(object sender, EventArgs e)
+    private async void EmployeeAddOnClicked(object sender, EventArgs e)
     {
         string username = usernameEntry.Text;
         string firstName = nameEntry.Text;
@@ -32,7 +30,7 @@ public partial class CustomerRegister : ContentPage
             Email = email,
             SecQuestion = secQuestion,
             SecAnswer = secAnswer,
-            RoleID = 1
+            RoleID = 2
         };
 
         bool result = await _userService.CreateUsersAsync(newUser);
@@ -40,14 +38,6 @@ public partial class CustomerRegister : ContentPage
         if (result)
         {
             await DisplayAlert("Baþarýlý", "Kullanýcý baþarýyla oluþturuldu!", "Tamam");
-            await Shell.Current.GoToAsync("///UserLogin");
-            usernameEntry.Text = string.Empty;
-            nameEntry.Text = string.Empty;
-            surnameEntry.Text = string.Empty;
-            passwordEntry.Text = string.Empty;
-            emailEntry.Text = string.Empty;
-            secQuestionPicker.SelectedItem = null;
-            secAnswerEntry.Text = string.Empty;
         }
         else
         {

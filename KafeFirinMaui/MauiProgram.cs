@@ -29,6 +29,13 @@ namespace KafeFirinMaui
             builder.Services.AddHttpClient("ApiClient", client =>
             {
                 client.BaseAddress = new Uri("https://localhost:7210");
+            })
+            .ConfigurePrimaryHttpMessageHandler(() =>
+            {
+                return new HttpClientHandler
+                {
+                    ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
+                };
             });
             builder.Services.AddSingleton<JsonSerializerOptions>(new JsonSerializerOptions
             {
@@ -49,6 +56,21 @@ namespace KafeFirinMaui
             builder.Services.AddTransient<OrderHistoryViewModel>();
             builder.Services.AddTransient<UserSettingsViewModel>();
             builder.Services.AddTransient<UserSettings>();
+            builder.Services.AddTransient<ProductViewModel>();
+            builder.Services.AddTransient<ProductStock>();
+            builder.Services.AddTransient<EmployeeAddOrRemove>();
+            builder.Services.AddTransient<ManagerSettings>();
+            builder.Services.AddTransient<CustomerFeedback>();
+            builder.Services.AddTransient<SalaryManagement>();
+            builder.Services.AddTransient<ForgotYourPassword>();
+            builder.Services.AddTransient<RateService>();
+            builder.Services.AddTransient<RateViewModel>();
+            builder.Services.AddTransient<EmployeeRatePageViewModel>(sp =>
+            new EmployeeRatePageViewModel(
+            sp.GetRequiredService<EmployeeViewModel>(),
+            sp.GetRequiredService<RateViewModel>()));
+            builder.Services.AddTransient<EmployeeRateList>();
+
             var app = builder.Build();
 
             App.Services = app.Services;

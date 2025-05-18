@@ -15,6 +15,7 @@ public class Users
     public string Email { get; set; }
     public string SecQuestion { get; set; }
     public string SecAnswer { get; set; }
+    public int? Salary { get; set; }
 
     [InverseProperty("Customer")]
     [JsonIgnore]

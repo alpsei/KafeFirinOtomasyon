@@ -14,10 +14,13 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Label Text="Kullanıcı Adı:" 
                FontSize="Subtitle" 
@@ -31,12 +34,19 @@
                VerticalOptions="Center"
                 Grid.Row="1" Grid.Column="0"/>
 
-        <Entry x:Name="passwordEntry" VerticalOptions="Center"
+        <Entry x:Name="passwordEntry" VerticalOptions="Center" IsPassword="True"
                 MinimumWidthRequest="175" MinimumHeightRequest="10"
                 Grid.Row="1" Grid.Column="1"/>
 
+        <!-- Şifreyi göster checkbox'ı -->
+        <HorizontalStackLayout Grid.Row="2" Grid.Column="1">
+            <CheckBox x:Name="showPasswordCheckbox" IsChecked="false" CheckedChanged="showPasswordCheckbox_CheckedChanged"/>
+            <Label Text="Şifreyi Göster" FontSize="Body" VerticalOptions="Center"/>
+        </HorizontalStackLayout>
+
+        <!-- Giriş yap butonu -->
         <Button Clicked="LoginOnClicked" Text="Giriş Yap"
-        Grid.Row="2" Grid.Column="0"
+        Grid.Row="3" Grid.Column="0"
         Grid.ColumnSpan="4"
         HorizontalOptions="Center"
         Margin="0,100,0,0"
@@ -64,13 +74,46 @@
                 </VisualStateGroupList>
             </VisualStateManager.VisualStateGroups>
         </Button>
-        <Label Text="Hesabınız yok mu? Kayıt Olun"
-       FontSize="Subtitle"
-       VerticalOptions="Center"
-       TextColor="Blue"
-       Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
+
+        <!-- Kayıt ol linklabel'ı -->
+        <HorizontalStackLayout Spacing="3" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" HorizontalOptions="Center">
+            <Label Text="Hesabınız yok mu?" FontSize="Subtitle"/>
+            <Label Text="Kayıt Olun!"
+                   FontSize="Subtitle"
+                   VerticalOptions="Center"
+                   TextColor="Blue"
+                   Grid.Row="4" Grid.Column="0">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnRegisterLabelTapped" />
+                </Label.GestureRecognizers>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Property="TextColor" Value="AliceBlue" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="SteelBlue" />
+                                    <Setter Property="TextColor" Value="White" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+            </Label>
+        </HorizontalStackLayout>
+        <!-- Şifremi unuttum linklabel'ı -->
+        <Label Text="Şifrenizi mi unuttunuz?"
+                   FontSize="Subtitle"
+                   VerticalOptions="Center"
+                   TextColor="Blue"
+                   Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" HorizontalOptions="Center">
             <Label.GestureRecognizers>
-                <TapGestureRecognizer Tapped="OnRegisterLabelTapped" />
+                <TapGestureRecognizer Tapped="OnForgotPasswordLabelTapped" />
             </Label.GestureRecognizers>
             <VisualStateManager.VisualStateGroups>
                 <VisualStateGroupList>
@@ -91,6 +134,5 @@
                 </VisualStateGroupList>
             </VisualStateManager.VisualStateGroups>
         </Label>
-
     </Grid>
 </ContentPage>

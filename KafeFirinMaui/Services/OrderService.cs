@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace KafeFirinMaui.Services
@@ -12,10 +13,16 @@ namespace KafeFirinMaui.Services
     public class OrderService
     {
         private readonly HttpClient _httpClient;
+        private readonly JsonSerializerOptions _jsonOptions;
 
-        public OrderService()
+        public OrderService(HttpClient httpClient, JsonSerializerOptions jsonSerializer)
         {
-            _httpClient = new HttpClient();
+            var handler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
+            };
+            _httpClient = new HttpClient(handler);
+            _jsonOptions = jsonSerializer;
         }
 
         public async Task<bool> PlaceOrder(OrderRequest request)
@@ -42,19 +49,15 @@ namespace KafeFirinMaui.Services
 
         public async Task<List<Orders>> GetOrdersAsync()
         {
-            try
+            var response = await _httpClient.GetAsync("https://localhost:7210/api/orders");
+
+            if (response.IsSuccessStatusCode)
             {
-                var response = await _httpClient.GetAsync("https://localhost:7210/api/orders");
-                response.EnsureSuccessStatusCode();
-                var jsonResponse = await response.Content.ReadAsStringAsync();
-                var orders = JsonConvert.DeserializeObject<List<Orders>>(jsonResponse);
-                return orders;
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<Orders>>(json);
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Siparişleri yüklerken hata: {ex.Message}");
-                return new List<Orders>();
-            }
+
+            return new List<Orders>();
         }
 
     }

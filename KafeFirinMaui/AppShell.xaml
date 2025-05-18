@@ -11,12 +11,7 @@
         Title="User Login"
         ContentTemplate="{DataTemplate local:UserLogin}"
         Route="UserLogin" />
-    
-    <ShellContent
-        Title="Customer Register"
-        ContentTemplate="{DataTemplate local:CustomerRegister}"
-        Route="CustomerRegister" />
-    
+
     <ShellContent
         Title="Customer Main Menu"
         ContentTemplate="{DataTemplate local:CustomerMainMenu}"
