@@ -12,10 +12,19 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Picker Title="Hangi konuda bildirim vermek istersiniz?"
+        <Picker x:Name="SubjectPicker"
+                Title="Hangi konuda bildirim vermek istersiniz?"
                 Grid.Row="0" 
-                Grid.Column="0"/>
-        <Editor
+                Grid.Column="0"
+                SelectedItem="{Binding SelectedTopic, Mode=TwoWay}">
+            <Picker.Items>
+            <x:String>Ürün Kalitesi</x:String>
+            <x:String>Hizmet Kalitesi</x:String>
+            <x:String>Fiyatlandırma</x:String>
+            <x:String>Diğer</x:String>
+            </Picker.Items>
+        </Picker>
+        <Editor Text="{Binding FeedbackMessage, Mode=TwoWay}"
                 Placeholder="Görüşlerinizi yazınız..."
                 AutoSize="TextChanges"
                 MaxLength="1000"

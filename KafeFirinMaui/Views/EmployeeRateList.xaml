@@ -32,7 +32,7 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <Grid x:Name="DetailPanel" IsVisible="False" Padding="10" BackgroundColor="LightGray">
+        <Grid x:Name="DetailPanel" IsVisible="False" Padding="10" BackgroundColor="#a13a0e">
             <VerticalStackLayout>
                 <Label Text="Detaylar" FontAttributes="Bold" />
                 <Label x:Name="DetailEmployeeID" />

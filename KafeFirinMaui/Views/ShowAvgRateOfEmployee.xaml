@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KafeFirinMaui.Views.ShowAvgRateOfEmployee"
+             Title="Ortalama Puanımı Görüntüle">
+    <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="35">
+            <Label x:Name="EmployeeNameLabel" FontSize="45" FontAttributes ="Bold" Margin="160,0,0,0"/>
+            <Label x:Name="EmployeeAvgRateLabel" FontSize="40" FontAttributes="Bold" Margin="80,0,0,0"/>
+            <Label x:Name="EmployeeSuggestionWordLabel" FontSize="30" FontAttributes="Bold,Italic" Margin="50,100,0,0"/>
+        </VerticalStackLayout>
+    </HorizontalStackLayout>
+</ContentPage>

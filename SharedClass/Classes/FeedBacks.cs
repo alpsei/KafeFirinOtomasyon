@@ -17,6 +17,7 @@ namespace SharedClass.Classes
         public int CustomerID { get; set; }
 
         public string Content { get; set; }
+        public string Subject { get; set; }
         public DateTime FBDate { get; set; } = DateTime.Now;
         public bool ReadReceipt { get; set; } = false;
 

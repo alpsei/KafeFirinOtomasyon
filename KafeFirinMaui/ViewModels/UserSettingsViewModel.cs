@@ -17,7 +17,7 @@ namespace KafeFirinMaui.ViewModels
     {
         private readonly UserService _userService;
         private Users _user;
-        public ICommand UpdateCommand => new Command(async () => await UpdateUserInfoAsync());
+        //public ICommand UpdateCommand => new Command(async () => await UpdateUserInfoAsync());
 
         public Users User
         {
@@ -55,15 +55,14 @@ namespace KafeFirinMaui.ViewModels
         {
             try
             {
-                var result = await _userService.UpdateUsersAsync(_user);
+                var result = await _userService.UpdateUsersAsync(User);
                 if (result)
                 {
-                    await App.Current.MainPage.DisplayAlert("Başarılı", "Kullanıcı bilgileri güncellendi.", "Tamam");
                     return true;
                 }
                 else
                 {
-                    await App.Current.MainPage.DisplayAlert("Hata", "Kullanıcı bilgileri güncellenemedi.", "Tamam");
+                    Console.WriteLine("API güncelleme işlemi başarısız döndü.");
                     return false;
                 }
             }
@@ -73,6 +72,28 @@ namespace KafeFirinMaui.ViewModels
                 return false;
             }
         }
+        public async Task<bool> DeleteUserAsync(int userId)
+        {
+            try
+            {
+                var result = await _userService.DeleteUsersAsync(userId);
+                if (result)
+                {
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine("API silme işlemi başarısız döndü.");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Kullanıcı bilgileri silinirken hata: {ex.Message}");
+                return false;
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = "") =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));

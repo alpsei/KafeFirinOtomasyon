@@ -4,69 +4,79 @@
              xmlns:local="clr-namespace:KafeFirinMaui.ViewModels"
              x:Class="KafeFirinMaui.Views.ProductStock"
              Title="Stok Takip">
+    <VerticalStackLayout Padding="20">
+        <CollectionView x:Name="FeedbackList"
+                    ItemsSource="{Binding ProductList}"
+                    SelectionMode="Single"
+                    SelectionChanged="ProductList_SelectionChanged">
 
-    <Grid Padding="10" ColumnSpacing="10">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
-        <!-- Ürün Listesi (Sol Taraf) -->
-        <CollectionView x:Name="ProductListView"
-                        Grid.Column="0"
-                        ItemsSource="{Binding ProductList}"
-                        SelectionMode="None">
             <CollectionView.ItemsLayout>
-                <GridItemsLayout x:Name="ProductGridLayout"
-                         Orientation="Vertical"
-                         Span="2"
-                         HorizontalItemSpacing="10"
-                         VerticalItemSpacing="10"/>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
             </CollectionView.ItemsLayout>
+
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame Margin="5"
-                           Padding="10"
-                           CornerRadius="12"
-                           BorderColor="Gray"
-                           HasShadow="True"
-                           HeightRequest="150"
-                           WidthRequest="150">
-                        <StackLayout>
-                            <Label Text="{Binding ProductName}" FontAttributes="Bold" />
-                            <Label Text="{Binding Price, StringFormat='₺{0:F2}'}" />
-                            <Label Text="{Binding Stock}" FontAttributes="Italic" />
-                            <Button Text="Ekle"
-                                    Command="{Binding BindingContext.UpdateStockCommand, Source={x:Reference ProductListView}}"
-                                    CommandParameter="{Binding .}" />
-                        </StackLayout>
+                    <Frame BorderColor="Gray" Padding="10" Margin="5" BackgroundColor="DarkOrange">
+                        <HorizontalStackLayout Spacing="10">
+
+                            <Label Text="ID:"
+                             FontSize="Medium" 
+                             TextColor="White"
+                             FontAttributes="Bold"/>
+                            <Label Text="{Binding ProductID}" 
+                             FontSize="Medium" 
+                             TextColor="White"/>
+                            
+                            <Label Text="Ürün Adı:"
+                             FontSize="Medium" 
+                             TextColor="White"
+                             FontAttributes="Bold"/>
+                            <Label Text="{Binding ProductName}" 
+                             FontSize="Medium" 
+                             TextColor="White"/>
+                            
+                            <Label Text="Stok Sayısı:"
+                             FontSize="Medium" 
+                             TextColor="White"
+                             FontAttributes="Bold"/>
+                            <Label Text="{Binding Stock}" 
+                             FontSize="Medium" 
+                             TextColor="White"/>
+                            
+                            <Label Text="Fiyat:"
+                             FontSize="Medium" 
+                             TextColor="White"
+                             FontAttributes="Bold"/>
+                            <Label Text="{Binding Price}" 
+                             FontSize="Medium" 
+                             TextColor="White"/>
+                        </HorizontalStackLayout>
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <!-- Stok Bilgisi ve Sipariş Verme (Sağ Taraf) -->
-        <Frame Grid.Column="1"
-               Padding="10"
-               BorderColor="Gray"
-               CornerRadius="12"
-               HasShadow="True">
-            <StackLayout>
-                <Label Text="Stok Durumu" FontSize="20" FontAttributes="Bold" />
-                <CollectionView ItemsSource="{Binding StockInfo}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <StackLayout Orientation="Horizontal" Spacing="10">
-                                <Label Text="{Binding ProductName}" />
-                                <Label Text="{Binding Stock, StringFormat='{0} adet'}" />
-                            </StackLayout>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-                <Button Text="Stokları Güncelle"
-                        Command="{Binding UpdateStockCommand}" />
-            </StackLayout>
-        </Frame>
-    </Grid>
-
+        <Grid x:Name="DetailPanel" IsVisible="False" Padding="10" BackgroundColor="#a13a0e">
+            <VerticalStackLayout>
+                <Label x:Name="DetailProductNameLabel" FontAttributes="Bold" />
+                <HorizontalStackLayout Spacing="10">
+                    <Label Text="Stok:"/>
+                    <Entry x:Name="DetailStockEntry"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout Spacing="10">
+                    <Label Text="Fiyat:"/>
+                    <Entry x:Name="DetailPriceEntry"/>
+                </HorizontalStackLayout>
+                <Button x:Name="updateStockButton"
+                        Text="Güncelle"
+                        TextColor="White"
+                        BackgroundColor="#a13a0e"
+                        BorderWidth="2"
+                        BorderColor="White"
+                        WidthRequest="200"
+                        CornerRadius="10"
+                        Clicked="updateStockButton_Clicked"/>
+            </VerticalStackLayout>
+        </Grid>
+    </VerticalStackLayout>
 </ContentPage>

@@ -16,4 +16,16 @@ public partial class ManagerSettings : ContentPage
         base.OnAppearing();
         await _viewModel.LoadUserInfoAsync();
     }
+    private async void OnUpdateClicked(object sender, EventArgs e)
+    {
+        var result = await _viewModel.UpdateUserInfoAsync();
+        if (result)
+        {
+            await DisplayAlert("Baþarýlý", "Kullanýcý bilgileri güncellendi.", "Tamam");
+        }
+        else
+        {
+            await DisplayAlert("Hata", "Kullanýcý bilgileri güncellenemedi.", "Tamam");
+        }
+    }
 }

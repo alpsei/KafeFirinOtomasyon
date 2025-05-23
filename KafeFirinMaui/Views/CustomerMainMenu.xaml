@@ -70,6 +70,16 @@
                 <Image Source="inbox.png" WidthRequest="40" HeightRequest="40"/>
                 <Label Text="Geri Bildirim Gönder" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
             </VerticalStackLayout>
+        </Frame>
+        <!-- Geçmiş geri bildirimlerim butonu -->
+        <Frame Padding="20" BackgroundColor="Orange" CornerRadius="10" HasShadow="True" Grid.Row="2" Grid.Column="1">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnFeedbackHistoryButtonTapped"/>
+            </Frame.GestureRecognizers>
+            <VerticalStackLayout HeightRequest="80" WidthRequest="160" HorizontalOptions="Center">
+                <Image Source="myfeedbacks.png" WidthRequest="40" HeightRequest="40"/>
+                <Label Text="Geri Bildirimlerim" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
+            </VerticalStackLayout>
         </Frame>        
         <!-- Çıkış Yap butonu -->
         <VerticalStackLayout Grid.Row="3" Grid.ColumnSpan="2" HorizontalOptions="Center" VerticalOptions="End">

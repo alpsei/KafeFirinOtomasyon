@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SharedClass.Classes;
 using Newtonsoft.Json;
 using System.Text.Json;
+using System.Net.Http.Json;
 
 namespace KafeFirinMaui.Services
 {
@@ -14,19 +15,15 @@ namespace KafeFirinMaui.Services
         private readonly HttpClient _httpClient;
         private readonly JsonSerializerOptions _jsonOptions;
 
-        public ProductServices(HttpClient httpClient, JsonSerializerOptions jsonSerializer)
+        public ProductServices(IHttpClientFactory httpClientFactory, JsonSerializerOptions jsonSerializer)
         {
-            var handler = new HttpClientHandler
-            {
-                ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
-            };
-            _httpClient = new HttpClient(handler);
+            _httpClient = httpClientFactory.CreateClient("ApiClient");
             _jsonOptions = jsonSerializer;
         }
 
         public async Task<List<Products>> GetProductsAsync()
         {
-            var response = await _httpClient.GetAsync("https://localhost:7210/api/products");
+            var response = await _httpClient.GetAsync("/api/products");
 
             if (response.IsSuccessStatusCode)
             {
@@ -35,6 +32,29 @@ namespace KafeFirinMaui.Services
             }
 
             return new List<Products>();
+        }
+
+        public async Task<bool> AddProductAsync(Products product)
+        {
+            var json = JsonConvert.SerializeObject(product);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/api/products", content);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> UpdateProductAsync(Products products)
+        {
+            try
+            {
+                var response = await _httpClient.PutAsJsonAsync($"/api/products/{products.ProductID}", products);
+                response.EnsureSuccessStatusCode();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                await App.Current.MainPage.DisplayAlert("Hata", "Ürün güncellenemedi.", "Tamam");
+                return false;
+            }
         }
 
 

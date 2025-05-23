@@ -42,14 +42,14 @@ namespace KafeFirinMaui
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             });
 
-            builder.Services.AddSingleton<UserService>();
-            builder.Services.AddSingleton<UserLogin>();
-            builder.Services.AddSingleton<CustomerRegister>();
+            builder.Services.AddTransient<UserService>();
+            builder.Services.AddTransient<UserLogin>();
+            builder.Services.AddTransient<CustomerRegister>();
             builder.Services.AddTransient<CustomerOrders>();
             builder.Services.AddTransient<CustomerOrdersViewModel>();
             builder.Services.AddTransient<CustomerOrders>();
             builder.Services.AddTransient<ProductServices>();
-            builder.Services.AddSingleton<OrderService>();
+            builder.Services.AddTransient<OrderService>();
             builder.Services.AddTransient<EmployeeViewModel>();
             builder.Services.AddTransient<RateEmployee>();
             builder.Services.AddTransient<OrderHistory>();
@@ -60,6 +60,8 @@ namespace KafeFirinMaui
             builder.Services.AddTransient<ProductStock>();
             builder.Services.AddTransient<EmployeeAddOrRemove>();
             builder.Services.AddTransient<ManagerSettings>();
+            builder.Services.AddTransient<FeedbackService>();
+            builder.Services.AddTransient<FeedbackViewModel>();
             builder.Services.AddTransient<CustomerFeedback>();
             builder.Services.AddTransient<SalaryManagement>();
             builder.Services.AddTransient<ForgotYourPassword>();
@@ -70,6 +72,13 @@ namespace KafeFirinMaui
             sp.GetRequiredService<EmployeeViewModel>(),
             sp.GetRequiredService<RateViewModel>()));
             builder.Services.AddTransient<EmployeeRateList>();
+            builder.Services.AddTransient<ShowAvgRateOfEmployee>();
+            builder.Services.AddTransient<AddProduct>();
+            builder.Services.AddTransient<FeedbackHistory>();
+            builder.Services.AddTransient<ShowFeedbacks>();
+            builder.Services.AddTransient<DeleteEmployee>();
+            builder.Services.AddTransient<StaffOrdersViewModel>();
+            builder.Services.AddTransient<StaffOrders>();
 
             var app = builder.Build();
 

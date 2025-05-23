@@ -65,6 +65,10 @@ namespace SharedClass.Migrations
                     b.Property<bool>("ReadReceipt")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("FeedBackID");
 
                     b.HasIndex("CustomerID");
@@ -89,6 +93,12 @@ namespace SharedClass.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasKey("DetailID");
 
                     b.HasIndex("OrderID");
@@ -112,6 +122,9 @@ namespace SharedClass.Migrations
 
                     b.Property<bool>("DiscountApplied")
                         .HasColumnType("bit");
+
+                    b.Property<decimal>("DiscountRate")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");

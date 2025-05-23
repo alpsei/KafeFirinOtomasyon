@@ -1,3 +1,4 @@
+using KafeFirinMaui.Helpers;
 using KafeFirinMaui.Services;
 
 namespace KafeFirinMaui.Views;
@@ -43,5 +44,11 @@ public partial class EmployeeAddOrRemove : ContentPage
         {
             await DisplayAlert("Hata", "Kullanýcý oluþturulamadý.", "Tamam");
         }
+    }
+    private async void EmployeeDeleteOnClicked(object sender, EventArgs e)
+    {
+        var deleteEmployee = App.Services.GetService<DeleteEmployee>();
+        if (deleteEmployee != null)
+            await Navigation.PushAsync(deleteEmployee);
     }
 }

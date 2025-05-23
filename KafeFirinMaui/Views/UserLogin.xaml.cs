@@ -17,37 +17,55 @@ public partial class UserLogin : ContentPage
 
     private async void LoginOnClicked(object sender, EventArgs e)
     {
-        if (usernameEntry.Text != null && passwordEntry.Text != null)
+        try
         {
-            var user = await userService.UserLogin(usernameEntry.Text, passwordEntry.Text);
-            DisplayAlert("Bilgi", "Kullanýcý giriþi baþarýlý!", "Tamam");
-            int rolId = user.RoleID;
-            if (Session.LoggedInUser == null)
+            if (!string.IsNullOrWhiteSpace(usernameEntry.Text) && !string.IsNullOrWhiteSpace(passwordEntry.Text))
             {
-                Session.LoggedInUser = new Users();
+                var user = await userService.UserLogin(usernameEntry.Text, passwordEntry.Text);
+                int rolId = user.RoleID;
+                if (user == null)
+                {
+                    await DisplayAlert("Hata", "Kullanýcý adý veya þifre hatalý.", "Tamam");
+                    return;
+                }
+                else 
+                {
+                        
+                    DisplayAlert("Bilgi", "Kullanýcý giriþi baþarýlý!", "Tamam");
+                    usernameEntry.Text = string.Empty;
+                    passwordEntry.Text = string.Empty;
+                }
+                if (Session.LoggedInUser == null)
+                {
+                    Session.LoggedInUser = new Users();
+                }
+                Session.LoggedInUser.UserID = user.UserID;
+                Session.LoggedInUser.RoleID = rolId;
+                Console.WriteLine("Giriþ yapan ID: " + Session.LoggedInUser.UserID);
+                switch (rolId)
+                {
+                    case 1:
+                        await Shell.Current.GoToAsync("///CustomerMainMenu");
+                        break;
+                    case 2:
+                        await Shell.Current.GoToAsync("///StaffMainMenu");
+                        break;
+                    case 3:
+                        await Shell.Current.GoToAsync("///ManagerMainMenu");
+                        break;
+                    default:
+                        await DisplayAlert("Hata", "Kullanýcý rolü tanýmlý deðil.", "Tamam");
+                        break;
+                }
             }
-            Session.LoggedInUser.UserID = user.UserID;
-            Session.LoggedInUser.RoleID = rolId;
-            Console.WriteLine("Giriþ yapan ID: " + Session.LoggedInUser.UserID);
-            switch (rolId)
+            else
             {
-                case 1:
-                    await Shell.Current.GoToAsync("///CustomerMainMenu");
-                    break;
-                case 2:
-                    await Shell.Current.GoToAsync("///StaffMainMenu");
-                    break;
-                case 3:
-                    await Shell.Current.GoToAsync("///ManagerMainMenu");
-                    break;
-                default:
-                    await DisplayAlert("Hata", "Kullanýcý rolü tanýmlý deðil.", "Tamam");
-                    break;
+                DisplayAlert("Hata", "Kullanýcý adý veya þifre boþ olamaz.", "Tamam");
             }
         }
-        else
+        catch (Exception ex)
         {
-            DisplayAlert("Hata", "Kullanýcý adý veya þifre boþ olamaz.", "Tamam");
+            await App.Current.MainPage.DisplayAlert("Hata", $"Giriþ yapýlamadý: {ex.Message}", "Tamam");
         }
     }
 

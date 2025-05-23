@@ -20,6 +20,7 @@ namespace SharedClass.Classes
         public string? OrderNote { get; set; }
         public DateTime OrderDate { get; set; } = DateTime.Now;
         public bool DiscountApplied { get; set; } = false;
+        public decimal DiscountRate { get; set; } = 0m;
 
         [ForeignKey(nameof(CustomerID))]
         [JsonIgnore]

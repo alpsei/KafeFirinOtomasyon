@@ -59,6 +59,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <MauiXaml Update="Views\AddProduct.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Views\CustomerFeedback.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
@@ -68,10 +71,16 @@
     <MauiXaml Update="Views\CustomerOrders.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+    <MauiXaml Update="Views\DeleteEmployee.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Views\EmployeeAddOrRemove.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Views\EmployeeRateList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\FeedbackHistory.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Views\ForgotYourPassword.xaml">
@@ -95,7 +104,16 @@
     <MauiXaml Update="Views\SalaryManagement.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+    <MauiXaml Update="Views\ShowAvgRateOfEmployee.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\ShowFeedbacks.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Views\StaffMainMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\StaffOrders.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Views\UserLogin.xaml">

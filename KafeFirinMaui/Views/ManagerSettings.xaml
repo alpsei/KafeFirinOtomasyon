@@ -50,10 +50,10 @@
                          VerticalOptions="End"
                          HorizontalOptions="Center">
             <Button x:Name="updateButton"
-                Text="Bilgileri Güncelle"
-                BackgroundColor="Orange"
-                WidthRequest="200"
-                Command="{Binding UpdateCommand}"/>
+                    Text="Bilgileri Güncelle"
+                    BackgroundColor="Orange"
+                    WidthRequest="200"
+                    Clicked="OnUpdateClicked"></Button>
         </VerticalStackLayout>
     </Grid>
 </ContentPage>

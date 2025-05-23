@@ -7,6 +7,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <VerticalStackLayout Grid.Row="0"
@@ -53,7 +54,18 @@
                     Text="Bilgileri Güncelle"
                     BackgroundColor="Orange"
                     WidthRequest="200"
-                    Command="{Binding UpdateCommand}"/>
+                    Clicked="OnUpdateClicked"></Button>
+        </VerticalStackLayout>
+        
+        <!-- Hesabımı sil butonu -->
+        <VerticalStackLayout Grid.Row="2"
+                             VerticalOptions="End"
+                             HorizontalOptions="Center">
+            <Button x:Name="deleteButton"
+                    Text="Hesabımı Sil"
+                    BackgroundColor="Orange"
+                    WidthRequest="200"
+                    Clicked="OnDeleteClicked"></Button>
         </VerticalStackLayout>
     </Grid>
 </ContentPage>

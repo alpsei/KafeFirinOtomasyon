@@ -1,15 +1,31 @@
+using KafeFirinMaui.Services;
+using KafeFirinMaui.ViewModels;
+
 namespace KafeFirinMaui.Views;
 
 public partial class CustomerFeedback : ContentPage
 {
-	
-	public CustomerFeedback()
-	{
-		InitializeComponent();
-	}
+    private readonly FeedbackViewModel _viewModel;
 
-    private void OnSendButtonTapped(object sender, EventArgs e)
+    public CustomerFeedback(FeedbackService feedbackService)
     {
-		// geri bildirim gönderme fonksiyonu
+        InitializeComponent();
+        _viewModel = new FeedbackViewModel(feedbackService);
+        BindingContext = _viewModel;
     }
+
+    private async void OnSendButtonTapped(object sender, EventArgs e)
+    {
+        var result = await _viewModel.SendFeedbackAsync();
+        if (result)
+        {
+            await DisplayAlert("Baþarýlý", "Geri bildiriminiz alýndý.", "Tamam");
+        }
+        else
+        {
+            await DisplayAlert("Hata", "Lütfen boþ býrakmayýnýz.", "Tamam");
+        }
+    }
+
 }
+

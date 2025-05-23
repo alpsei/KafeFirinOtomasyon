@@ -15,13 +15,9 @@ namespace KafeFirinMaui.Services
         private readonly HttpClient _httpClient;
         private readonly JsonSerializerOptions _jsonOptions;
 
-        public OrderService(HttpClient httpClient, JsonSerializerOptions jsonSerializer)
+        public OrderService(IHttpClientFactory httpClientFactory, JsonSerializerOptions jsonSerializer)
         {
-            var handler = new HttpClientHandler
-            {
-                ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
-            };
-            _httpClient = new HttpClient(handler);
+            _httpClient = httpClientFactory.CreateClient("ApiClient");
             _jsonOptions = jsonSerializer;
         }
 
@@ -29,7 +25,7 @@ namespace KafeFirinMaui.Services
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync("https://localhost:7210/api/orders", request);
+                var response = await _httpClient.PostAsJsonAsync("/api/orders", request);
                 var responseBody = await response.Content.ReadAsStringAsync();
 
                 if (!response.IsSuccessStatusCode)
@@ -49,7 +45,7 @@ namespace KafeFirinMaui.Services
 
         public async Task<List<Orders>> GetOrdersAsync()
         {
-            var response = await _httpClient.GetAsync("https://localhost:7210/api/orders");
+            var response = await _httpClient.GetAsync("/api/orders");
 
             if (response.IsSuccessStatusCode)
             {
@@ -59,6 +55,38 @@ namespace KafeFirinMaui.Services
 
             return new List<Orders>();
         }
+        public async Task<List<Orders>> GetOrdersByStaffIdAsync(int staffId)
+        {
+            var response = await _httpClient.GetAsync($"/api/orders/staff/{staffId}");
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<Orders>>(json);
+            }
+            return new List<Orders>();
+        }
+        public async Task<bool> UpdateOrderStatusAsync(Orders orders)
+        {
+            try
+            {
+                var response = await _httpClient.PutAsJsonAsync($"/api/orders/{orders.OrderID}", orders);
+                response.EnsureSuccessStatusCode();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                await App.Current.MainPage.DisplayAlert("Hata", "Kullanıcı güncellenemedi.", "Tamam");
+                return false;
+            }
+        }
+
+
+        public async Task<int> GetUserOrderCountAsync(int userId)
+        {
+            var orders = await GetOrdersAsync();
+            return orders.Count(o => o.CustomerID == userId);
+        }
+
 
     }
 }

@@ -2,10 +2,10 @@ namespace KafeFirinMaui.Views;
 
 public partial class CustomerMainMenu : ContentPage
 {
-	public CustomerMainMenu()
-	{
-		InitializeComponent();
-	}
+    public CustomerMainMenu()
+    {
+        InitializeComponent();
+    }
 
     private async void OnOrderButtonTapped(object sender, EventArgs e)
     {
@@ -31,12 +31,18 @@ public partial class CustomerMainMenu : ContentPage
         if (userSettings != null)
             await Navigation.PushAsync(userSettings);
     }
-    
+
     private async void OnFeedbackButtonTapped(object sender, EventArgs e)
     {
         var customerFeedback = App.Services.GetService<CustomerFeedback>();
         if (customerFeedback != null)
             await Navigation.PushAsync(customerFeedback);
+    }
+    private async void OnFeedbackHistoryButtonTapped(object sender, EventArgs e)
+    {
+        var feedbackHistory = App.Services.GetService<FeedbackHistory>();
+        if (feedbackHistory != null)
+            await Navigation.PushAsync(feedbackHistory);
     }
     private async void OnLogoutButtonTapped(object sender, EventArgs e)
     {
@@ -44,4 +50,4 @@ public partial class CustomerMainMenu : ContentPage
         await Shell.Current.Navigation.PopToRootAsync();
         await Shell.Current.GoToAsync("//UserLogin");
     }
-} 
+}

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -17,8 +18,16 @@ namespace KafeFirinMaui.ViewModels
     {
         private readonly UserService _userService;
         private Users _user;
-        public ICommand UpdateCommand => new Command(async () => await UpdateEmployeeInfoAsync());
         public ObservableCollection<Users> Employees { get; set; } = new();
+        public Users Employee
+        {
+            get => _user;
+            set
+            {
+                _user = value;
+                OnPropertyChanged();
+            }
+        }
         public EmployeeViewModel(UserService userService)
         {
             _userService = userService;
@@ -46,8 +55,7 @@ namespace KafeFirinMaui.ViewModels
         {
             try
             {
-                var users = await _userService.GetUserByIdAsync(Session.LoggedInUser.UserID);
-                var result = await _userService.UpdateUsersAsync(users);
+                var result = await _userService.UpdateUsersAsync(Employee);
                 if (result)
                 {
                     await App.Current.MainPage.DisplayAlert("Başarılı", "Kullanıcı bilgileri güncellendi.", "Tamam");
@@ -55,6 +63,7 @@ namespace KafeFirinMaui.ViewModels
                 }
                 else
                 {
+                    Console.WriteLine("API güncelleme işlemi başarısız döndü.");
                     await App.Current.MainPage.DisplayAlert("Hata", "Kullanıcı bilgileri güncellenemedi.", "Tamam");
                     return false;
                 }
@@ -67,7 +76,7 @@ namespace KafeFirinMaui.ViewModels
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string name) =>
+        protected void OnPropertyChanged([CallerMemberName] string name = "") =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 

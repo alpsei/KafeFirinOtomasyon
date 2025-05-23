@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KafeFirinMaui.Views.AddProduct"
+             Title="Ürün Ekleme">
+    <Grid Padding="20" RowSpacing="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <VerticalStackLayout Grid.Row="0"
+                             VerticalOptions="Center"
+                             HorizontalOptions="Center"
+                             Spacing="15">
+
+            <HorizontalStackLayout Spacing="50">
+                <!-- Ürün Adı -->
+                <HorizontalStackLayout Spacing="10">
+                    <Label Text="Ürün Adı:" WidthRequest="80" VerticalOptions="Center"/>
+                    <Entry WidthRequest="200"/>
+                </HorizontalStackLayout>
+
+
+                <!-- Fiyat -->
+                <HorizontalStackLayout Spacing="10">
+                    <Label Text="Fiyat:" WidthRequest="80" VerticalOptions="Center"/>
+                    <Entry WidthRequest="200"/>
+                </HorizontalStackLayout>
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout Spacing="50">
+                <!-- Stok -->
+                <HorizontalStackLayout Spacing="10">
+                    <Label Text="Stok:" WidthRequest="80" VerticalOptions="Center"/>
+                    <Entry WidthRequest="200"/>
+                </HorizontalStackLayout>
+
+                <!-- Kategori Adı -->
+                <HorizontalStackLayout Spacing="10">
+                    <Picker x:Name="categoryNamePicker"
+                            HeightRequest="10" WidthRequest="175"
+                            Grid.Row="1" Grid.Column="1">
+                        <Picker.Items>
+                            <x:String>İçecek</x:String>
+                            <x:String>Unlu Mamüller</x:String>
+                        </Picker.Items>
+                    </Picker>
+                </HorizontalStackLayout>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+
+
+        <!-- Ürün ekle butonu -->
+        <VerticalStackLayout Grid.Row="1"
+                             VerticalOptions="End"
+                             HorizontalOptions="Center">
+            <Button x:Name="updateButton"
+                    Text="Ürün Ekle"
+                    BackgroundColor="Orange"
+                    WidthRequest="200"
+                    Clicked="OnProductAddClicked"></Button>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

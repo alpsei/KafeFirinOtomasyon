@@ -80,7 +80,22 @@ namespace KafeFirinMaui.Services
         {
             try
             {
-                var response = await _httpClient.DeleteAsync($"/api/users/{userId}");
+                var response = await _httpClient.DeleteAsync($"/api/users/by-id/{userId}");
+                response.EnsureSuccessStatusCode();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Kullanıcı silinirken hata oluştu");
+                await App.Current.MainPage.DisplayAlert("Hata", "Kullanıcı silinemedi.", "Tamam");
+                return false;
+            }
+        }
+        public async Task<bool> DeleteUsersAsync(string username)
+        {
+            try
+            {
+                var response = await _httpClient.DeleteAsync($"/api/users/by-username/{username}");
                 response.EnsureSuccessStatusCode();
                 return true;
             }
@@ -96,7 +111,36 @@ namespace KafeFirinMaui.Services
         {
             try
             {
-                var response = await _httpClient.GetAsync($"/api/users/{userId}");
+                var response = await _httpClient.GetAsync($"/api/users/by-id/{userId}");
+                response.EnsureSuccessStatusCode();
+                var json = await response.Content.ReadAsStringAsync();
+                var user = JsonSerializer.Deserialize<Users>(json, _jsonOptions);
+                return user;
+            }
+            catch (HttpRequestException ex)
+            {
+                _logger.LogError(ex, "Kullanıcı alınırken API hatası");
+                await App.Current.MainPage.DisplayAlert("Hata", "Kullanıcı bilgileri alınamadı.", "Tamam");
+                return null;
+            }
+            catch (JsonException ex)
+            {
+                _logger.LogError(ex, "JSON deserileştirme hatası");
+                await App.Current.MainPage.DisplayAlert("Hata", "Veri işlenirken bir hata oluştu.", "Tamam");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Kullanıcı alınırken beklenmedik hata");
+                await App.Current.MainPage.DisplayAlert("Hata", "Bilinmeyen bir hata oluştu.", "Tamam");
+                return null;
+            }
+        }
+        public async Task<Users> GetUserByUsernameAsync(string username)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"/api/users/by-username/{username}");
                 response.EnsureSuccessStatusCode();
                 var json = await response.Content.ReadAsStringAsync();
                 var user = JsonSerializer.Deserialize<Users>(json, _jsonOptions);

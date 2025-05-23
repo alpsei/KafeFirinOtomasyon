@@ -134,7 +134,6 @@ public class RateViewModel : INotifyPropertyChanged
         OnPropertyChanged(nameof(CurrentRating));
         OnPropertyChanged(nameof(EmployeeRate));
     }
-
     public event PropertyChangedEventHandler PropertyChanged;
     protected void OnPropertyChanged([CallerMemberName] string name = null)
     {

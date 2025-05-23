@@ -31,7 +31,12 @@ namespace KafeFirinApi.EndPoints
             {
                 var feedBack = await db.FeedBacks.FindAsync(id);
                 if (feedBack is null) return Results.NotFound();
+
                 feedBack.Content = updatedFeedBack.Content;
+                feedBack.Subject = updatedFeedBack.Subject;
+                feedBack.FBDate = updatedFeedBack.FBDate;
+                feedBack.ReadReceipt = updatedFeedBack.ReadReceipt;
+
                 await db.SaveChangesAsync();
                 return Results.NoContent();
             })
@@ -47,6 +52,24 @@ namespace KafeFirinApi.EndPoints
                 return Results.NotFound();
             })
             .WithName("DeleteFeedBack");
+            routes.MapGet("/feedback/user/{userId}", async (int userId, AppDbContext db, ILogger<RateEndpointsLogging> logger) =>
+            {
+                logger.LogInformation("GET /feedback/user/{userId} çağrıldı.", userId);
+                try
+                {
+                    var feedbacks = await db.FeedBacks
+                        .Where(f => f.CustomerID == userId)
+                        .ToListAsync();
+                    logger.LogInformation("{UserId} ID'li müşteriye ait {Count} adet geri bildirim bulundu.", userId, feedbacks.Count);
+                    return Results.Ok(feedbacks);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "GET /feedback/user/{UserId} sırasında bir hata oluştu.", userId);
+                    return Results.Problem("Müşteriye ait geri bildirimler listelenirken bir sorun oluştu.", statusCode: StatusCodes.Status500InternalServerError);
+                }
+            })
+            .WithName("GetFeedbacksByUserId");
         }
     }
 }

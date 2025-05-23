@@ -40,7 +40,9 @@ public partial class ManagerMainMenu : ContentPage
     // Geri bildirim gelen kutusu butonu fonksiyonu
     private async void OnFeedbackButtonTapped(object sender, EventArgs e)
     {
-        // await Shell.Current.GoToAsync("//StaffPage");
+        var showFeedbacks = App.Services.GetService<ShowFeedbacks>();
+        if (showFeedbacks != null)
+            await Navigation.PushAsync(showFeedbacks);
     }
 
     // Stok takibi butonu fonksiyonu
@@ -49,6 +51,13 @@ public partial class ManagerMainMenu : ContentPage
         var productStock = App.Services.GetService<ProductStock>();
         if (productStock != null)
             await Navigation.PushAsync(productStock);
+    }
+    // Ürün ekleme butonu
+    private async void OnAddProductButtonTapped(object sender, EventArgs e)
+    {
+        var addProduct = App.Services.GetService<AddProduct>();
+        if (addProduct != null)
+            await Navigation.PushAsync(addProduct);
     }
     private async void OnLogoutButtonTapped(object sender, EventArgs e)
     {

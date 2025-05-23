@@ -22,5 +22,20 @@ public partial class CustomerOrders : ContentPage
         base.OnAppearing();
         await _viewModel.LoadProductsAsync();
     }
-
+    private void OnHeartClicked(object sender, EventArgs e)
+    {
+        if (sender is ImageButton button)
+        {
+            if (button.ClassId == "empty")
+            {
+                button.Source = "filled_heart.png";
+                button.ClassId = "filled";
+            }
+            else
+            {
+                button.Source = "heart.png";
+                button.ClassId = "empty";
+            }
+        }
+    }
 }

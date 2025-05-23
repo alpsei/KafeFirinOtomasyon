@@ -20,6 +20,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -66,38 +67,7 @@
                IsPassword="True"
                MinimumWidthRequest="175" MinimumHeightRequest="10"
                Grid.Row="2" Grid.Column="1"/>
-
-        <Button Clicked="EmployeeAddOnClicked" Text="Personel Ekle"
-        Grid.Row="7" Grid.Column="0"
-        Grid.ColumnSpan="4"
-        HorizontalOptions="Center"
-        Margin="0,100,0,0"
-        WidthRequest="100"
-        FontSize="18"
-        FontAttributes="Bold"
-        BackgroundColor="OrangeRed">
-            <VisualStateManager.VisualStateGroups>
-                <VisualStateGroupList>
-                    <VisualStateGroup x:Name="CommonStates">
-                        <VisualState x:Name="Normal" />
-                        <VisualState x:Name="PointerOver">
-                            <VisualState.Setters>
-                                <Setter Property="BackgroundColor" Value="#a13a0e" />
-                                <Setter Property="TextColor" Value="White" />
-                            </VisualState.Setters>
-                        </VisualState>
-                        <VisualState x:Name="Pressed">
-                            <VisualState.Setters>
-                                <Setter Property="BackgroundColor" Value="SteelBlue" />
-                                <Setter Property="TextColor" Value="White" />
-                            </VisualState.Setters>
-                        </VisualState>
-                    </VisualStateGroup>
-                </VisualStateGroupList>
-            </VisualStateManager.VisualStateGroups>
-        </Button>
-
-
+        
         <Label Text="E-Posta" FontSize="Subtitle" 
                VerticalOptions="Center" 
                Grid.Row="1" Grid.Column="2"/>
@@ -129,5 +99,66 @@
         <Entry x:Name="secAnswerEntry"
                MinimumWidthRequest="175" HeightRequest="10"
                Grid.Row="6" Grid.Column="3"/>
+
+
+        <Button Clicked="EmployeeAddOnClicked" Text="Personel Ekle"
+        Grid.Row="7" Grid.Column="0"
+        Grid.ColumnSpan="4"
+        HorizontalOptions="Center"
+        Margin="0,100,0,0"
+        WidthRequest="175"
+        FontSize="18"
+        FontAttributes="Bold"
+        BackgroundColor="OrangeRed">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="PointerOver">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#a13a0e" />
+                                <Setter Property="TextColor" Value="White" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Pressed">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="SteelBlue" />
+                                <Setter Property="TextColor" Value="White" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </VisualStateManager.VisualStateGroups>
+        </Button>
+        
+        <Button Clicked="EmployeeDeleteOnClicked" Text="Personel Çıkarma Ekranı"
+        Grid.Row="8" Grid.Column="0"
+        Grid.ColumnSpan="4"
+        HorizontalOptions="Center"
+        Margin="0,100,0,0"
+        WidthRequest="250"
+        FontSize="18"
+        FontAttributes="Bold"
+        BackgroundColor="OrangeRed">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="PointerOver">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#a13a0e" />
+                                <Setter Property="TextColor" Value="White" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Pressed">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="SteelBlue" />
+                                <Setter Property="TextColor" Value="White" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </VisualStateManager.VisualStateGroups>
+        </Button>
     </Grid>
 </ContentPage>

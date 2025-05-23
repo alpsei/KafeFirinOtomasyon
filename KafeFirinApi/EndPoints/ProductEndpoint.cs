@@ -7,7 +7,7 @@ namespace KafeFirinApi.EndPoints
     {
         public static void MapProductEndpoints(this IEndpointRouteBuilder routes)
         {
-            // Tüm ürünleri getir (Category bilgisiyle birlikte)
+            // Tüm ürünleri getir
             routes.MapGet("/api/products", async (AppDbContext db) =>
             {
                 var products = await db.Products
@@ -22,7 +22,6 @@ namespace KafeFirinApi.EndPoints
                     .FirstOrDefaultAsync(p => p.ProductID == id);
                 return product is not null ? Results.Ok(product) : Results.NotFound();
             });
-
             // Yeni ürün ekle
             routes.MapPost("/api/products", async (Products product, AppDbContext db) =>
             {

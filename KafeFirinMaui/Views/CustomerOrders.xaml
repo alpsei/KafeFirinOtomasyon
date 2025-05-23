@@ -30,15 +30,28 @@
                            CornerRadius="12"
                            BorderColor="Gray"
                            HasShadow="True"
-                           HeightRequest="150"
+                           HeightRequest="170"
                            WidthRequest="150">
-                        <StackLayout>
-                            <Label Text="{Binding ProductName}" FontAttributes="Bold" />
-                            <Label Text="{Binding Price, StringFormat='₺{0:F2}'}" />
-                            <Button Text="Sepete Ekle"
-                                    Command="{Binding BindingContext.AddToCartCommand, Source={x:Reference ProductListView}}"
-                                    CommandParameter="{Binding .}" />
-                        </StackLayout>
+                        <Grid>
+                            <ImageButton Source="heart.png"
+                                         WidthRequest="5"
+                                         HeightRequest="5"
+                                         Scale="0.7"
+                                         ClassId="empty"
+                                         BackgroundColor="Transparent"
+                                         HorizontalOptions="End"
+                                         VerticalOptions="Start"
+                                         Clicked="OnHeartClicked" 
+                                         Margin="0,0,0,10"/>
+                            <StackLayout Padding="0"  Margin="0,50,0,0">
+                                <Label Text="{Binding ProductName}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                                <Label Text="{Binding Price, StringFormat='₺{0:F2}'}" HorizontalOptions="Center"/>
+                                <Button Text="Sepete Ekle"
+                                        Command="{Binding BindingContext.AddToCartCommand, Source={x:Reference ProductListView}}"
+                                        CommandParameter="{Binding .}"
+                                        IsEnabled="{Binding Stock, Converter={StaticResource GreaterThanZeroConverter}}"/>
+                            </StackLayout>
+                        </Grid>
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
@@ -52,20 +65,50 @@
        HasShadow="True">
             <StackLayout>
                 <Label Text="Sepetiniz" FontSize="20" FontAttributes="Bold" />
-                <CollectionView ItemsSource="{Binding Cart}">
+                <Editor Text="{Binding OrderNote, Mode=TwoWay}" Placeholder="Sipariş Notu Giriniz..." />
+                <CollectionView ItemsSource="{Binding CartItems}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <StackLayout Orientation="Horizontal" Spacing="10">
-                                <Label Text="{Binding ProductName}" />
-                                <Label Text="{Binding Price, StringFormat='₺{0:F2}'}" />
+                                <Label Text="{Binding Product.ProductName}" />
+                                <Label Text="{Binding OriginalPrice, StringFormat='₺{0:F2}'}"
+                                       TextDecorations="Strikethrough"
+                                       TextColor="Gray"
+                                       IsVisible="{Binding IsDiscounted}" />
+                                <Label Text="{Binding DiscountedPrice, StringFormat='₺{0:F2}'}"
+                                       FontAttributes="Bold"
+                                       IsVisible="{Binding IsDiscounted}" />
+                                <Label Text="{Binding OriginalPrice, StringFormat='₺{0:F2}'}"
+                                       IsVisible="{Binding IsDiscounted, Converter={StaticResource InverseBooleanConverter}, FallbackValue=true}" />
+                                <Label Text="{Binding Quantity, StringFormat='x{0}'}" />
+                                <Label Text="{Binding DiscountRate, StringFormat='-%{0:P0}'}"
+                                       TextColor="OrangeRed"
+                                       IsVisible="{Binding IsDiscounted}" />
                             </StackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
+                <Label Text="{Binding TotalPrice, StringFormat='Toplam: ₺{0:F2}'}"
+               FontAttributes="Bold"
+               FontSize="16"
+               HorizontalOptions="End" />
+
+                <Label Text="{Binding DiscountAmount, StringFormat='İndirim: -₺{0:F2}'}"
+               FontAttributes="Bold"
+               FontSize="16"
+               TextColor="OrangeRed"
+               HorizontalOptions="End"
+               IsVisible="{Binding DiscountApplied}" />
+
+                <Label Text="{Binding DiscountedTotalPrice, StringFormat='Ödenecek: ₺{0:F2}'}"
+               FontAttributes="Bold"
+               FontSize="18"
+               TextColor="Green"
+               HorizontalOptions="End"
+               IsVisible="{Binding DiscountApplied}" />
                 <Button Text="Sipariş Ver"
                 Command="{Binding OrderCommand}" />
             </StackLayout>
         </Frame>
-
     </Grid>
 </ContentPage>

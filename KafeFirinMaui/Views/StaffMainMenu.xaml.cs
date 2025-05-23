@@ -9,12 +9,16 @@ public partial class StaffMainMenu : ContentPage
     // Sipariþleri listeleme butonu fonksiyonu
     private async void OnOrderButtonTapped(object sender, EventArgs e)
     {
-
+        var staffOrders = App.Services.GetService<StaffOrders>();
+        if (staffOrders != null)
+            await Navigation.PushAsync(staffOrders);
     }
     // Puan ortalama butonu fonksiyonu
     private async void OnPointsButtonTapped(object sender, EventArgs e)
     {
-
+        var avgPoint = App.Services.GetService<ShowAvgRateOfEmployee>();
+        if (avgPoint != null)
+            await Navigation.PushAsync(avgPoint);
     }
     // Stok butonu fonksiyonu
     private async void OnStocksButtonTapped(object sender, EventArgs e)
@@ -22,6 +26,14 @@ public partial class StaffMainMenu : ContentPage
         var productStock = App.Services.GetService<ProductStock>();
         if (productStock != null)
             await Navigation.PushAsync(productStock);
+    }
+
+    // Ürün ekleme butonu
+    private async void OnAddProductButtonTapped(object sender, EventArgs e)
+    {
+        var addProduct = App.Services.GetService<AddProduct>();
+        if (addProduct != null)
+            await Navigation.PushAsync(addProduct);
     }
     private async void OnLogoutButtonTapped(object sender, EventArgs e)
     {

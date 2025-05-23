@@ -1,3 +1,4 @@
+using KafeFirinMaui.Helpers;
 using KafeFirinMaui.ViewModels;
 
 namespace KafeFirinMaui.Views;
@@ -6,8 +7,8 @@ public partial class SalaryManagement : ContentPage
 {
     private readonly EmployeeViewModel _viewModel;
     public SalaryManagement(EmployeeViewModel viewModel)
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         _viewModel = viewModel;
         BindingContext = _viewModel;
     }
@@ -16,11 +17,9 @@ public partial class SalaryManagement : ContentPage
         if (e.CurrentSelection != null && e.CurrentSelection.Count > 0)
         {
             var selectedEmployee = e.CurrentSelection[0] as Users;
-
             if (selectedEmployee != null)
             {
-                DetailEmployeeSalary.Text = $"{selectedEmployee.Salary}";
-
+                _viewModel.Employee = selectedEmployee;
                 DetailPanel.IsVisible = true;
             }
         }
@@ -29,6 +28,21 @@ public partial class SalaryManagement : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        await _viewModel.UpdateEmployeeInfoAsync();
+        await _viewModel.LoadEmployeeAsync();
     }
+
+    private async void updateSalaryButton_Clicked(object sender, EventArgs e)
+    {
+        var result = await _viewModel.UpdateEmployeeInfoAsync();
+        await _viewModel.LoadEmployeeAsync();
+        if (result)
+        {
+            await DisplayAlert("Baþarýlý", "Kullanýcý bilgileri güncellendi.", "Tamam");
+        }
+        else
+        {
+            await DisplayAlert("Hata", "Kullanýcý bilgileri güncellenemedi.", "Tamam");
+        }
+    }
+
 }

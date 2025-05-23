@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KafeFirinMaui.Views.DeleteEmployee"
+             Title="Personel Çıkar">
+    <Grid
+    Padding="20"
+    RowSpacing="10"
+    ColumnSpacing="40"
+    HorizontalOptions="Center"
+    VerticalOptions="Center">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" HorizontalOptions="Center">
+            <Label Text="Kullanıcı Adı:" 
+           FontSize="Subtitle" 
+           VerticalOptions="Center" 
+           Grid.Row="0" Grid.Column="0"/>
+
+            <Entry x:Name="usernameEntry"
+           Grid.Row="0" Grid.Column="1"
+           MinimumWidthRequest="175"
+           MinimumHeightRequest="10"/>
+
+            <Button Clicked="SearchEmployeeOnClicked" Text="Ara"
+                    Grid.Row="7" Grid.Column="0"
+                    Grid.ColumnSpan="4"
+                    HorizontalOptions="Center"
+                    Margin="0,100,0,0"
+                    WidthRequest="100"
+                    FontSize="18"
+                    FontAttributes="Bold"
+                    BackgroundColor="OrangeRed">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#a13a0e" />
+                                    <Setter Property="TextColor" Value="White" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="SteelBlue" />
+                                    <Setter Property="TextColor" Value="White" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+            </Button>
+        </HorizontalStackLayout>
+
+        <Label Text="Ad:" 
+               FontSize="Subtitle" 
+               VerticalOptions="Center" 
+               Grid.Row="1" Grid.Column="0"/>
+
+        <Entry x:Name="nameEntry"
+           Grid.Row="1" Grid.Column="1"
+           MinimumWidthRequest="175"
+           MinimumHeightRequest="10"
+               IsEnabled="False"/>
+
+        <Label Text="Soyadı:" 
+           FontSize="Subtitle" 
+           VerticalOptions="Center" 
+           Grid.Row="1" Grid.Column="2"/>
+
+        <Entry x:Name="surnameEntry"
+           MinimumWidthRequest="175" MinimumHeightRequest="10"
+           Grid.Row="1" Grid.Column="3"
+               IsEnabled="False"/>
+
+        <Label Text="Şifre:" 
+           FontSize="Subtitle" 
+           VerticalOptions="Center" 
+           Grid.Row="2" Grid.Column="0"/>
+        <Entry x:Name="passwordEntry"
+           MinimumWidthRequest="175" MinimumHeightRequest="10"
+           Grid.Row="2" Grid.Column="1"
+               IsEnabled="False"/>
+
+        <Label Text="E-Posta" FontSize="Subtitle" 
+           VerticalOptions="Center" 
+           Grid.Row="2" Grid.Column="2"/>
+
+        <Entry x:Name="emailEntry"
+           MinimumWidthRequest="175" MinimumHeightRequest="10"
+           Grid.Row="2" Grid.Column="3"
+               IsEnabled="False"/>
+
+
+        <Button Clicked="EmployeeDeleteOnClicked" Text="Personel Çıkar"
+    Grid.Row="7" Grid.Column="0"
+    Grid.ColumnSpan="4"
+    HorizontalOptions="Center"
+    Margin="0,100,0,0"
+    WidthRequest="175"
+    FontSize="18"
+    FontAttributes="Bold"
+    BackgroundColor="OrangeRed">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="PointerOver">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#a13a0e" />
+                                <Setter Property="TextColor" Value="White" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Pressed">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="SteelBlue" />
+                                <Setter Property="TextColor" Value="White" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </VisualStateManager.VisualStateGroups>
+        </Button>
+    </Grid>
+</ContentPage>

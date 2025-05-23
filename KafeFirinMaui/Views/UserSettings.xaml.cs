@@ -1,3 +1,4 @@
+using KafeFirinMaui.Helpers;
 using KafeFirinMaui.ViewModels;
 using SharedClass.Classes;
 
@@ -16,6 +17,37 @@ public partial class UserSettings : ContentPage
 	{
         base.OnAppearing();
         await _viewModel.LoadUserInfoAsync();
+    }
+
+    private async void OnUpdateClicked(object sender, EventArgs e)
+    {
+        var result = await _viewModel.UpdateUserInfoAsync();
+        if (result)
+        {
+            await DisplayAlert("Baþarýlý", "Kullanýcý bilgileri güncellendi.", "Tamam");
+        }
+        else
+        {
+            await DisplayAlert("Hata", "Kullanýcý bilgileri güncellenemedi.", "Tamam");
+        }
+    }
+    private async void OnDeleteClicked(object sender, EventArgs e)
+    {
+        bool answer = await DisplayAlert("Uyarý", "Hesabýnýzý silmek istediðinize emin misiniz?", "Evet", "Hayýr");
+
+        if (answer)
+        {
+            var result = await _viewModel.DeleteUserAsync(Session.LoggedInUser.UserID);
+            if (result)
+            {
+                await DisplayAlert("Baþarýlý", "Kullanýcý bilgileri silindi.", "Tamam");
+                await Shell.Current.GoToAsync("///UserLogin");
+            }
+            else
+            {
+                await DisplayAlert("Hata", "Kullanýcý bilgileri silinemedi.", "Tamam");
+            }
+        }
     }
 
 }
