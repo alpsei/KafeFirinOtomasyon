@@ -31,7 +31,7 @@ namespace KafeFirinMaui.Helpers
         }
 
         public decimal OriginalPrice => Product?.Price ?? 0;
-        public decimal DiscountedPrice => DiscountRate > 0 ? Math.Round(OriginalPrice * (1 - DiscountRate), 2) : OriginalPrice;
+        public decimal DiscountedPrice => OriginalPrice * (1 - DiscountRate);
         public bool IsDiscounted => DiscountRate > 0;
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -33,12 +33,31 @@ public partial class StaffOrders : ContentPage
             DetailOrderDate.Text = $"Tarih: {_selectedOrder.OrderDate:dd/MM/yyyy}";
             DetailOrderStatus.Text = $"Durum: {_selectedOrder.OrderStatus}";
             DetailOrderNote.Text = $"Not: {_selectedOrder.OrderNote}";
+
+            switch (_selectedOrder.OrderStatus)
+            {
+                case "Hazýrlanýyor":
+                    updatePreparingButton.IsEnabled = false;
+                    updateDeliveredButton.IsEnabled = true;
+                    break;
+                case "Teslim Edildi":
+                    updatePreparingButton.IsEnabled = false;
+                    updateDeliveredButton.IsEnabled = false;
+                    break;
+                default:
+                    updatePreparingButton.IsEnabled = true;
+                    updateDeliveredButton.IsEnabled = false;
+                    break;
+            }
         }
         else
         {
             DetailPanel.IsVisible = false;
+            updatePreparingButton.IsEnabled = false;
+            updateDeliveredButton.IsEnabled = false;
         }
     }
+
 
     private async void updatePreparingButton_Clicked(object sender, EventArgs e)
     {

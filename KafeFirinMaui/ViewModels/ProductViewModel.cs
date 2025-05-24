@@ -10,15 +10,17 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Maui.Dispatching;
 using Windows.System;
+using KafeFirinMaui.Helpers;
 
 namespace KafeFirinMaui.ViewModels
 {
-    public class ProductViewModel : INotifyPropertyChanged
+    public class ProductViewModel : Products, INotifyPropertyChanged
     {
         private readonly ProductServices _productServices;
+        private readonly FavoriteService _favoriteService;
         private Products _products;
         private ObservableCollection<Products> _productList { get; set; } = new();
-
+        public ObservableCollection<int> FavoriteProductIds { get; set; } = new();
         public ObservableCollection<Products> ProductList
         {
             get => _productList;
@@ -40,24 +42,54 @@ namespace KafeFirinMaui.ViewModels
                 OnPropertyChanged();
             }
         }
-
-        public ProductViewModel(ProductServices productServices)
+        private bool _isFavorite;
+        public bool IsFavorite
+        {
+            get => _isFavorite;
+            set
+            {
+                if (_isFavorite != value)
+                {
+                    _isFavorite = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        public ProductViewModel(ProductServices productServices, FavoriteService favoriteService)
         {
             _productServices = productServices;
+            _favoriteService = favoriteService;
         }
-
+        public async Task LoadFavoritesAsync(int userId)
+        {
+            var favorites = await _favoriteService.GetFavoritesAsync();
+            FavoriteProductIds.Clear();
+            foreach (var fav in favorites.Where(f => f.CustomerID == userId))
+                FavoriteProductIds.Add(fav.ProductID);
+        }
         public async Task LoadProductsAsync()
         {
             try
             {
+                await LoadFavoritesAsync(Session.LoggedInUser.UserID);
                 var products = await _productServices.GetProductsAsync();
-
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
                     ProductList.Clear();
-                    foreach (var product in products)
+                    var sortedProducts = products
+                        .OrderByDescending(p => FavoriteProductIds.Contains(p.ProductID))
+                        .ToList();
+                    foreach (var product in sortedProducts)
                     {
-                        ProductList.Add(product);
+                        ProductList.Add(new ProductViewModel(_productServices, _favoriteService)
+                        {
+                            ProductID = product.ProductID,
+                            ProductName = product.ProductName,
+                            Price = product.Price,
+                            Stock = product.Stock,
+                            CategoryID = product.CategoryID,
+                            IsFavorite = FavoriteProductIds.Contains(product.ProductID)
+                        });
                     }
                 });
             }
@@ -66,7 +98,6 @@ namespace KafeFirinMaui.ViewModels
                 Console.WriteLine($"Error loading products: {ex.Message}");
             }
         }
-
         public async Task<bool> AddProductAsync(Products product)
         {
             try

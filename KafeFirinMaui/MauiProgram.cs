@@ -79,6 +79,7 @@ namespace KafeFirinMaui
             builder.Services.AddTransient<DeleteEmployee>();
             builder.Services.AddTransient<StaffOrdersViewModel>();
             builder.Services.AddTransient<StaffOrders>();
+            builder.Services.AddTransient<FavoriteService>();
 
             var app = builder.Build();
 

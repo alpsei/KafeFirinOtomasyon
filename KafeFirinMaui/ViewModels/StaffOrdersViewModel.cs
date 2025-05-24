@@ -32,22 +32,16 @@ namespace KafeFirinMaui.ViewModels
 
         public async Task LoadStaffOrdersAsync(int staffId)
         {
-            try
-            {
-                var allOrders = await _orderService.GetOrdersAsync();
-                var currentUserId = Session.LoggedInUser.UserID;
-                var userOrders = allOrders.Where(x => x.StaffID == currentUserId).ToList();
-                StaffOrders.Clear();
-                foreach (var order in userOrders)
-                {
-                    StaffOrders.Add(order);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Siparişler yüklenirken hata: {ex.Message}");
-            }
+            var orders = await _orderService.GetOrdersByStaffIdAsync(staffId);
+            var sorted = orders
+                .OrderBy(o => o.OrderStatus == "Teslim Edildi" ? 1 : 0)
+                .ThenByDescending(o => o.OrderDate)
+                .ToList();
+
+            StaffOrders = new ObservableCollection<Orders>(sorted);
+            OnPropertyChanged(nameof(StaffOrders));
         }
+
         public async Task<bool> UpdateOrderStatusAsync()
         {
             try

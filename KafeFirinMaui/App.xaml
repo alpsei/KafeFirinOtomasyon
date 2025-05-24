@@ -11,6 +11,8 @@
             </ResourceDictionary.MergedDictionaries>
             <local:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
             <local:GreaterThanZeroConverter x:Key="GreaterThanZeroConverter"/>
+            <local:FavoriteToImageConverter x:Key="FavoriteToImageConverter" />
+            <local:FavoriteToClassIdConverter x:Key="FavoriteToClassIdConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

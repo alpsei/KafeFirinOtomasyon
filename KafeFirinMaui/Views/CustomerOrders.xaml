@@ -33,16 +33,18 @@
                            HeightRequest="170"
                            WidthRequest="150">
                         <Grid>
-                            <ImageButton Source="heart.png"
+                            <ImageButton Source="{Binding IsFavorite, Converter={StaticResource FavoriteToImageConverter}}"
+                                         ClassId="{Binding IsFavorite, Converter={StaticResource FavoriteToClassIdConverter}}"
                                          WidthRequest="5"
                                          HeightRequest="5"
                                          Scale="0.7"
-                                         ClassId="empty"
                                          BackgroundColor="Transparent"
                                          HorizontalOptions="End"
                                          VerticalOptions="Start"
-                                         Clicked="OnHeartClicked" 
+                                         Clicked="OnHeartClicked"
+                                         BindingContext="{Binding .}"
                                          Margin="0,0,0,10"/>
+                            
                             <StackLayout Padding="0"  Margin="0,50,0,0">
                                 <Label Text="{Binding ProductName}" FontAttributes="Bold" HorizontalOptions="Center"/>
                                 <Label Text="{Binding Price, StringFormat='₺{0:F2}'}" HorizontalOptions="Center"/>
@@ -88,10 +90,10 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-                <Label Text="{Binding TotalPrice, StringFormat='Toplam: ₺{0:F2}'}"
-               FontAttributes="Bold"
-               FontSize="16"
-               HorizontalOptions="End" />
+                <Label Text="{Binding DisplayedTotalPrice, StringFormat='Toplam: ₺{0:F2}'}"
+                       FontAttributes="Bold"
+                       FontSize="16"
+                       HorizontalOptions="End" />
 
                 <Label Text="{Binding DiscountAmount, StringFormat='İndirim: -₺{0:F2}'}"
                FontAttributes="Bold"

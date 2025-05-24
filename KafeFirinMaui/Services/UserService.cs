@@ -194,6 +194,50 @@ namespace KafeFirinMaui.Services
                 return null;
             }
         }
+        public async Task<bool> UpdatePasswordAsync(string username, string secQuestion, string secAnswer, string newPassword)
+        {
+            try
+            {
+                var user = await GetUserByUsernameAsync(username);
+                if (user == null)
+                {
+                    await App.Current.MainPage.DisplayAlert("Hata", "Kullanıcı bulunamadı.", "Tamam");
+                    return false;
+                }
+
+                if (!string.Equals(user.SecQuestion, secQuestion, StringComparison.OrdinalIgnoreCase) ||
+                    !string.Equals(user.SecAnswer, secAnswer, StringComparison.OrdinalIgnoreCase))
+                {
+                    await App.Current.MainPage.DisplayAlert("Hata", "Güvenlik sorusu veya cevabı hatalı.", "Tamam");
+                    return false;
+                }
+
+                user.Password = newPassword;
+
+                var response = await _httpClient.PutAsJsonAsync($"/api/users/{user.UserID}", user);
+                response.EnsureSuccessStatusCode();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Şifre güncellenirken hata oluştu");
+                await App.Current.MainPage.DisplayAlert("Hata", "Şifre güncellenemedi.", "Tamam");
+                return false;
+            }
+        }
+        public async Task<Users?> GetUserByUsernameAndSecurity(string username, string secQuestion, string secAnswer)
+        {
+            var user = await GetUserByUsernameAsync(username);
+            if (user == null)
+                return null;
+            if (!string.Equals(user.SecQuestion, secQuestion, StringComparison.OrdinalIgnoreCase) ||
+                !string.Equals(user.SecAnswer, secAnswer, StringComparison.OrdinalIgnoreCase))
+                return null;
+
+            return user;
+        }
+
+
     }
 }
 

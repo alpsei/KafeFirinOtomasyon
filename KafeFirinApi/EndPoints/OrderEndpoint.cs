@@ -19,20 +19,40 @@ namespace KafeFirinApi.EndPoints
             });
             routes.MapGet("/api/orders/staff/{staffId}", async (int staffId, AppDbContext db) =>
             {
-                var order = await db.Orders.FirstOrDefaultAsync(o => o.StaffID == staffId);
-                return order is not null ? Results.Ok(order) : Results.NotFound();
+                var orders = await db.Orders.Where(o => o.StaffID == staffId).ToListAsync();
+                return Results.Ok(orders);
             });
             routes.MapPost("/api/orders", async (OrderRequest request, AppDbContext db) =>
             {
-                var eligibleStaffs = await db.Users.Where(u => u.RoleID == 2).ToListAsync();
+                int maxActiveOrdersPerStaff = 3;
+                var eligibleStaffs = await db.Users
+                    .Where(u => u.RoleID == 2)
+                    .ToListAsync();
 
                 if (!eligibleStaffs.Any())
                 {
                     return Results.BadRequest("Sipariş atamak için uygun personel bulunamadı.");
                 }
 
+                var availableStaffs = new List<Users>();
+                foreach (var staff in eligibleStaffs)
+                {
+                    int activeOrderCount = await db.Orders
+                        .CountAsync(o => o.StaffID == staff.UserID && o.OrderStatus != "Teslim Edildi");
+
+                    if (activeOrderCount < maxActiveOrdersPerStaff)
+                    {
+                        availableStaffs.Add(staff);
+                    }
+                }
+
+                if (!availableStaffs.Any())
+                {
+                    return Results.BadRequest("Tüm personellerin aktif sipariş limiti dolu.");
+                }
+
                 var random = new Random();
-                var randomStaff = eligibleStaffs[random.Next(eligibleStaffs.Count)];
+                var randomStaff = availableStaffs[random.Next(availableStaffs.Count)];
 
                 var order = new Orders
                 {
@@ -57,8 +77,6 @@ namespace KafeFirinApi.EndPoints
 
                 return Results.Created($"/api/orders/{order.OrderID}", order);
             });
-
-
             routes.MapDelete("/api/orders/{id}", async (int id, AppDbContext db) =>
             {
                 var order = await db.Orders.FindAsync(id);

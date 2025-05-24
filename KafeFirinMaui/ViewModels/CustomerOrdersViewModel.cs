@@ -15,10 +15,13 @@ namespace KafeFirinMaui.ViewModels
     {
         private readonly ProductServices _productServices;
         private readonly OrderService _orderService;
-        public ObservableCollection<Products> ProductList { get; set; } = new();
+        private readonly FavoriteService _favoriteService;
+        public ObservableCollection<ProductViewModel> ProductList { get; set; } = new();
         public ObservableCollection<CartDisplayItem> CartItems { get; set; } = new();
         public Dictionary<Products, int> Cart { get; set; } = new Dictionary<Products, int>();
+        public ObservableCollection<int> FavoriteProductsId { get; set; } = new();
         private static readonly decimal[] DiscountRates = { 0.05m, 0.10m, 0.15m };
+        public decimal DisplayedTotalPrice => DiscountApplied ? DiscountedTotalPrice : TotalPrice;
         private Random _random = new();
         public decimal TotalPrice
         {
@@ -59,8 +62,8 @@ namespace KafeFirinMaui.ViewModels
                 }
             }
         }
-        private decimal _currentDiscountRate = 0m;
-        public decimal CurrentDiscountRate
+        private static decimal _currentDiscountRate = 0m;
+        public static decimal CurrentDiscountRate
         {
             get => _currentDiscountRate;
             set
@@ -68,8 +71,6 @@ namespace KafeFirinMaui.ViewModels
                 if (_currentDiscountRate != value)
                 {
                     _currentDiscountRate = value;
-                    OnPropertyChanged();
-                    UpdateCartItems();
                 }
             }
         }
@@ -80,10 +81,11 @@ namespace KafeFirinMaui.ViewModels
         public ICommand OrderCommand { get; }
 
 
-        public CustomerOrdersViewModel(ProductServices productServices, OrderService orderService)
+        public CustomerOrdersViewModel(ProductServices productServices, OrderService orderService, FavoriteService favoriteService)
         {
             _productServices = productServices;
             _orderService = orderService;
+            _favoriteService = favoriteService;
             AddToCartCommand = new Command<Products>(AddToCart);
             OrderCommand = new Command(OnOrder);
         }
@@ -91,9 +93,28 @@ namespace KafeFirinMaui.ViewModels
         public async Task LoadProductsAsync()
         {
             var products = await _productServices.GetProductsAsync();
+            await LoadFavoritesAsync();
+
             ProductList.Clear();
             foreach (var product in products)
-                ProductList.Add(product);
+            {
+                ProductList.Add(new ProductViewModel(_productServices, _favoriteService)
+                {
+                    ProductID = product.ProductID,
+                    ProductName = product.ProductName,
+                    Price = product.Price,
+                    Stock = product.Stock,
+                    CategoryID = product.CategoryID,
+                    IsFavorite = FavoriteProductsId.Contains(product.ProductID)
+                });
+            }
+        }
+        public async Task LoadFavoritesAsync()
+        {
+            var favorites = await _favoriteService.GetFavoritesAsync();
+            FavoriteProductsId.Clear();
+            foreach (var fav in favorites.Where(f=> f.CustomerID == Session.LoggedInUser.UserID))
+                FavoriteProductsId.Add(fav.ProductID);
         }
 
         private async void OnOrder()
@@ -196,38 +217,33 @@ namespace KafeFirinMaui.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Hata", "Sipariş verilirken bir hata oluştu.", "Tamam");
             }
         }
-
-
-
-
+        public void ResortProductList()
+        {
+            var sorted = ProductList.OrderByDescending(p => p.IsFavorite).ToList();
+            ProductList.Clear();
+            foreach (var item in sorted)
+                ProductList.Add(item);
+        }
         public async void AddToCart(Products product)
         {
-            if (product.Stock <= 0)
-            {
-                await Application.Current.MainPage.DisplayAlert("Stok Yok", "Bu ürün stokta yok.", "Tamam");
-                return;
-            }
-
-            int currentInCart = Cart.ContainsKey(product) ? Cart[product] : 0;
-
-            if (currentInCart + 1 > product.Stock)
-            {
-                await Application.Current.MainPage.DisplayAlert("Stok Yetersiz", $"Stokta sadece {product.Stock} adet var. Sepete daha fazla ekleyemezsiniz.", "Tamam");
-                return;
-            }
 
             if (Cart.ContainsKey(product))
-                Cart[product] += 1;
+                Cart[product]++;
             else
-                Cart.Add(product, 1);
+                Cart[product] = 1;
 
             UpdateCartItems();
+
+            await CheckAndApplyDiscountAsync();
         }
+
 
         public async Task CheckAndApplyDiscountAsync()
         {
-            int orderCount = await _orderService.GetUserOrderCountAsync(CustomerID);
-            if (orderCount == 5 && !DiscountApplied)
+            int orderCount = await _orderService.GetUserOrderCountAsync(Session.LoggedInUser.UserID);
+            int newOrderNumber = orderCount + (Cart.Count > 0 ? 1 : 0);
+
+            if (newOrderNumber % 5 == 0 && Cart.Count > 0 && !DiscountApplied)
             {
                 var rate = DiscountRates[_random.Next(DiscountRates.Length)];
                 CurrentDiscountRate = rate;
@@ -241,7 +257,7 @@ namespace KafeFirinMaui.ViewModels
                     item.OnPropertyChanged(nameof(item.IsDiscounted));
                 }
             }
-            else if (orderCount < 5)
+            else if (!(newOrderNumber % 5 == 0 && Cart.Count > 0))
             {
                 CurrentDiscountRate = 0;
                 DiscountApplied = false;
@@ -251,9 +267,12 @@ namespace KafeFirinMaui.ViewModels
                     item.OnPropertyChanged(nameof(item.DiscountedPrice));
                     item.OnPropertyChanged(nameof(item.DiscountRate));
                     item.OnPropertyChanged(nameof(item.IsDiscounted));
+                    OnPropertyChanged(nameof(DisplayedTotalPrice));
                 }
             }
         }
+
+
 
         private void UpdateCartItems()
         {
@@ -263,11 +282,16 @@ namespace KafeFirinMaui.ViewModels
 
             foreach (var entry in Cart)
             {
+                var product = entry.Key;
+                var quantity = entry.Value;
+                var originalPrice = product.Price;
+                var discountedPrice = originalPrice * (1 - currentDiscountRate);
+
                 CartItems.Add(new CartDisplayItem
                 {
-                    Product = entry.Key,
-                    Quantity = entry.Value,
-                    DiscountRate = currentDiscountRate
+                    Product = product,
+                    Quantity = quantity,
+                    DiscountRate = currentDiscountRate,
                 });
             }
 
@@ -275,7 +299,9 @@ namespace KafeFirinMaui.ViewModels
             OnPropertyChanged(nameof(TotalPrice));
             OnPropertyChanged(nameof(DiscountedTotalPrice));
             OnPropertyChanged(nameof(DiscountAmount));
+            OnPropertyChanged(nameof(DisplayedTotalPrice));
         }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)

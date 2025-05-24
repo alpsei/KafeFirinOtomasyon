@@ -49,7 +49,7 @@
                 </VerticalStackLayout>
             </Frame>
         <!-- Ürün Ekleme Butonu -->
-        <Frame Padding="20" BackgroundColor="Orange" CornerRadius="10" HasShadow="True" Grid.Row="2" Grid.Column="0">
+        <Frame Padding="20" BackgroundColor="Orange" CornerRadius="10" HasShadow="True" Grid.Row="1" Grid.Column="1">
             <Frame.GestureRecognizers>
                 <TapGestureRecognizer Tapped="OnAddProductButtonTapped"/>
             </Frame.GestureRecognizers>

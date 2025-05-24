@@ -23,6 +23,7 @@ namespace SharedClass.Classes
         public virtual Users Customer { get; set; }
 
         [ForeignKey(nameof(ProductID))]
+        [JsonIgnore]
         public virtual Products Product { get; set; }
     }
 

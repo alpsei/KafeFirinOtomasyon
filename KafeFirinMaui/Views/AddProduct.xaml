@@ -3,62 +3,58 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="KafeFirinMaui.Views.AddProduct"
              Title="Ürün Ekleme">
-    <Grid Padding="20" RowSpacing="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <VerticalStackLayout Grid.Row="0"
-                             VerticalOptions="Center"
-                             HorizontalOptions="Center"
-                             Spacing="15">
-
-            <HorizontalStackLayout Spacing="50">
-                <!-- Ürün Adı -->
-                <HorizontalStackLayout Spacing="10">
-                    <Label Text="Ürün Adı:" WidthRequest="80" VerticalOptions="Center"/>
-                    <Entry WidthRequest="200"/>
-                </HorizontalStackLayout>
+    <ScrollView>
+        <Grid Padding="20" RowSpacing="20" ColumnSpacing="30" HorizontalOptions="Center" Margin="0,150,0,0"
+              Scale="1.3" x:Name="MainGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
 
-                <!-- Fiyat -->
-                <HorizontalStackLayout Spacing="10">
-                    <Label Text="Fiyat:" WidthRequest="80" VerticalOptions="Center"/>
-                    <Entry WidthRequest="200"/>
-                </HorizontalStackLayout>
-            </HorizontalStackLayout>
+            <!-- Ürün Adı -->
+            <Label Text="Ürün Adı:" WidthRequest="80" VerticalOptions="Center" Grid.Column="0" Grid.Row="0"/>
+            <Entry WidthRequest="200" Grid.Row="0" Grid.Column="1"/>
 
-            <HorizontalStackLayout Spacing="50">
-                <!-- Stok -->
-                <HorizontalStackLayout Spacing="10">
-                    <Label Text="Stok:" WidthRequest="80" VerticalOptions="Center"/>
-                    <Entry WidthRequest="200"/>
-                </HorizontalStackLayout>
+            <!-- Fiyat -->
+            <Label Text="Fiyat:" WidthRequest="80" VerticalOptions="Center" Grid.Row="1" Grid.Column="0"/>
+            <Entry WidthRequest="200" Grid.Row="1" Grid.Column="1"/>
 
-                <!-- Kategori Adı -->
-                <HorizontalStackLayout Spacing="10">
-                    <Picker x:Name="categoryNamePicker"
+            <!-- Stok -->
+            <Label Text="Stok:" WidthRequest="80" VerticalOptions="Center" Grid.Row="0" Grid.Column="2"/>
+            <Entry WidthRequest="200" Grid.Row="0" Grid.Column="3"/>
+
+            <!-- Kategori Adı -->
+            <Label Text="Kategori Adı:" WidthRequest="80" VerticalOptions="Center" Grid.Row="1" Grid.Column="2"/>
+            <Picker x:Name="categoryNamePicker"
                             HeightRequest="10" WidthRequest="175"
-                            Grid.Row="1" Grid.Column="1">
-                        <Picker.Items>
-                            <x:String>İçecek</x:String>
-                            <x:String>Unlu Mamüller</x:String>
-                        </Picker.Items>
-                    </Picker>
-                </HorizontalStackLayout>
-            </HorizontalStackLayout>
-        </VerticalStackLayout>
+                            Grid.Row="1" Grid.Column="3">
+                <Picker.Items>
+                    <x:String>İçecek</x:String>
+                    <x:String>Unlu Mamüller</x:String>
+                    <x:String>Kahvaltı</x:String>
+                    <x:String>Tatlı/Pasta</x:String>
+                    <x:String>Sandviç/Tost</x:String>
+                </Picker.Items>
+            </Picker>
 
 
-        <!-- Ürün ekle butonu -->
-        <VerticalStackLayout Grid.Row="1"
-                             VerticalOptions="End"
-                             HorizontalOptions="Center">
+            <!-- Ürün ekle butonu -->
             <Button x:Name="updateButton"
                     Text="Ürün Ekle"
                     BackgroundColor="Orange"
                     WidthRequest="200"
-                    Clicked="OnProductAddClicked"></Button>
-        </VerticalStackLayout>
-    </Grid>
+                    Clicked="OnProductAddClicked"
+                    Grid.Row="2" Grid.ColumnSpan="4" VerticalOptions="Center"
+                    HorizontalOptions="Center">
+            </Button>
+        </Grid>
+    </ScrollView>
 </ContentPage>

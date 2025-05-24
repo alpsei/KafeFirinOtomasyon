@@ -3,36 +3,38 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="KafeFirinMaui.Views.OrderHistory"
              Title="Sipariş Geçmişi">
-    <VerticalStackLayout Padding="20">
-        <CollectionView x:Name="EmployeeList"
+    <ScrollView>
+        <VerticalStackLayout Padding="20">
+            <CollectionView x:Name="EmployeeList"
                         ItemsSource="{Binding OrderHistories}"
                         SelectionMode="Single"
                         SelectionChanged="HistoryList_SelectionChanged">
 
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
-            </CollectionView.ItemsLayout>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                </CollectionView.ItemsLayout>
 
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Frame BorderColor="Gray" Padding="10" Margin="5" BackgroundColor="DarkOrange">
-                        <VerticalStackLayout>
-                            <Label Text="Sipariş" 
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BorderColor="Gray" Padding="10" Margin="5" BackgroundColor="DarkOrange">
+                            <VerticalStackLayout>
+                                <Label Text="Sipariş" 
                                    FontSize="Medium" 
                                    TextColor="White"/>
-                        </VerticalStackLayout>
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
-        <Grid x:Name="DetailPanel" IsVisible="False" Padding="10" BackgroundColor="LightGray">
-            <VerticalStackLayout>
-                <Label Text="Detaylar" FontAttributes="Bold" />
-                <Label x:Name="DetailOrderDate" Text="{Binding OrderDate, StringFormat='Tarih: {0:dd/MM/yyyy}'}"/>
-                <Label x:Name="DetailOrderStatus" Text="{Binding OrderStatus, StringFormat='Durum: {0}'}"/>
-                <Label x:Name="DetailOrderNote" Text="{Binding OrderNote, StringFormat='Not: {0}'}"/>
-            </VerticalStackLayout>
-        </Grid>
-    </VerticalStackLayout>
+            <Grid x:Name="DetailPanel" IsVisible="False" Padding="10" BackgroundColor="#a13a0e">
+                <VerticalStackLayout>
+                    <Label Text="Detaylar" FontAttributes="Bold" />
+                    <Label x:Name="DetailOrderDate" Text="{Binding OrderDate, StringFormat='Tarih: {0:dd/MM/yyyy}'}"/>
+                    <Label x:Name="DetailOrderStatus" Text="{Binding OrderStatus, StringFormat='Durum: {0}'}"/>
+                    <Label x:Name="DetailOrderNote" Text="{Binding OrderNote, StringFormat='Not: {0}'}"/>
+                </VerticalStackLayout>
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

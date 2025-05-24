@@ -47,6 +47,20 @@ namespace KafeFirinApi.EndPoints
                 return Results.NotFound();
             })
             .WithName("DeleteFavorite");
+            routes.MapDelete("/favorite/by-userid/{userId}/{productId}", async (int userId, int productId, AppDbContext db) =>
+            {
+                var favorite = await db.Favorites
+                    .FirstOrDefaultAsync(f => f.CustomerID == userId && f.ProductID == productId);
+
+                if (favorite is null)
+                {
+                    return Results.NotFound();
+                }
+
+                db.Favorites.Remove(favorite);
+                await db.SaveChangesAsync();
+                return Results.NoContent();
+            });
         }
     }
 }

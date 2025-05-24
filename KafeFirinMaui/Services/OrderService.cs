@@ -55,6 +55,11 @@ namespace KafeFirinMaui.Services
 
             return new List<Orders>();
         }
+        public class OrdersResponse
+        {
+            public List<Orders> Orders { get; set; }
+        }
+
         public async Task<List<Orders>> GetOrdersByStaffIdAsync(int staffId)
         {
             var response = await _httpClient.GetAsync($"/api/orders/staff/{staffId}");
@@ -65,6 +70,9 @@ namespace KafeFirinMaui.Services
             }
             return new List<Orders>();
         }
+
+
+
         public async Task<bool> UpdateOrderStatusAsync(Orders orders)
         {
             try
