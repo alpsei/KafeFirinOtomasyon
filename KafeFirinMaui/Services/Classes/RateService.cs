@@ -7,10 +7,11 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using KafeFirinMaui.Services.Interfaces;
 
-namespace KafeFirinMaui.Services
+namespace KafeFirinMaui.Services.Classes
 {
-    public class RateService
+    public class RateService : IRateService
     {
         private readonly HttpClient _httpClient;
         private readonly JsonSerializerOptions _jsonOptions;

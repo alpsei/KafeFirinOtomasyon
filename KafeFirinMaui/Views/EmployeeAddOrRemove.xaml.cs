@@ -1,12 +1,12 @@
 using KafeFirinMaui.Helpers;
-using KafeFirinMaui.Services;
+using KafeFirinMaui.Services.Interfaces;
 
 namespace KafeFirinMaui.Views;
 
 public partial class EmployeeAddOrRemove : ContentPage
 {
-    private readonly UserService _userService;
-    public EmployeeAddOrRemove(UserService userService)
+    private readonly IUserService _userService;
+    public EmployeeAddOrRemove(IUserService userService)
     {
         InitializeComponent();
         _userService = userService;
@@ -19,7 +19,7 @@ public partial class EmployeeAddOrRemove : ContentPage
         string lastName = surnameEntry.Text;
         string password = passwordEntry.Text;
         string email = emailEntry.Text;
-        string? secQuestion = secQuestionPicker.SelectedItem.ToString();
+        string? secQuestion = secQuestionPicker.SelectedItem?.ToString();
         string secAnswer = secAnswerEntry.Text;
 
         Users newUser = new Users
@@ -31,10 +31,11 @@ public partial class EmployeeAddOrRemove : ContentPage
             Email = email,
             SecQuestion = secQuestion,
             SecAnswer = secAnswer,
-            RoleID = 2
+            RoleID = 2,
+            CreatedBy = Session.LoggedInUser?.UserID,
         };
 
-        bool result = await _userService.CreateUsersAsync(newUser);
+        bool result = await _userService.CreateUsersAsync(newUser, Session.LoggedInUser?.UserID);
 
         if (result)
         {

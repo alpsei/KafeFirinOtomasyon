@@ -3,41 +3,46 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="KafeFirinMaui.Views.FeedbackHistory"
              Title="Geri Bildirim Geçmişi">
-    <VerticalStackLayout Padding="20">
-        <CollectionView x:Name="FeedbackList"
+    <ScrollView>
+        <VerticalStackLayout Padding="20">
+            <CollectionView x:Name="FeedbackList"
                     ItemsSource="{Binding FeedBacks}"
                     SelectionMode="Single"
                     SelectionChanged="FeedbackList_SelectionChanged">
 
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
-            </CollectionView.ItemsLayout>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                </CollectionView.ItemsLayout>
 
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Frame BorderColor="Gray" Padding="10" Margin="5" BackgroundColor="DarkOrange">
-                        <HorizontalStackLayout Spacing="10">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BorderColor="Gray" Padding="10" Margin="5" BackgroundColor="DarkOrange">
+                            <HorizontalStackLayout Spacing="10">
 
-                            <Label Text="Konu:"
+                                <Label Text="Konu:"
                              FontSize="Medium" 
                              TextColor="White"/>
-                            <Label Text="{Binding Subject}" 
+                                <Label Text="{Binding Subject}" 
                              FontSize="Medium" 
                              TextColor="White"/>
-                        </HorizontalStackLayout>
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                            </HorizontalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
-        <Grid x:Name="DetailPanel" IsVisible="False" Padding="10" BackgroundColor="#a13a0e">
-            <VerticalStackLayout>
-                <Label Text="Detaylar" FontAttributes="Bold" />
-                <Label x:Name="DetailSubject"/>
-                <Label x:Name="DetailContent"/>
-                <Label x:Name="DetailFbDate"/>
-                <Label x:Name="DetailReadReceipt"/>
-            </VerticalStackLayout>
-        </Grid>
-    </VerticalStackLayout>
+            <Grid x:Name="DetailPanel" IsVisible="False" Padding="10" BackgroundColor="#a13a0e">
+                <ScrollView>
+                    <VerticalStackLayout>
+                        <Label Text="Detaylar" FontAttributes="Bold" />
+                        <Label x:Name="DetailSubject"/>
+                        <Label x:Name="DetailContent"/>
+                        <Label x:Name="DetailFbDate"/>
+                        <Label x:Name="DetailReadReceipt"/>
+                    </VerticalStackLayout>
+                </ScrollView>
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

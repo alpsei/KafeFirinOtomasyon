@@ -7,10 +7,11 @@ using SharedClass.Classes;
 using Newtonsoft.Json;
 using System.Text.Json;
 using System.Net.Http.Json;
+using KafeFirinMaui.Services.Interfaces;
 
-namespace KafeFirinMaui.Services
+namespace KafeFirinMaui.Services.Classes
 {
-    public class ProductServices
+    public class ProductServices : IProductService
     {
         private readonly HttpClient _httpClient;
         private readonly JsonSerializerOptions _jsonOptions;
@@ -52,7 +53,7 @@ namespace KafeFirinMaui.Services
             }
             catch (Exception ex)
             {
-                await App.Current.MainPage.DisplayAlert("Hata", "Ürün güncellenemedi.", "Tamam");
+                await Application.Current.MainPage.DisplayAlert("Hata", "Ürün güncellenemedi.", "Tamam");
                 return false;
             }
         }

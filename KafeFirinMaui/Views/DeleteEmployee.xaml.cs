@@ -1,11 +1,11 @@
-using KafeFirinMaui.Services;
+using KafeFirinMaui.Services.Interfaces;
 
 namespace KafeFirinMaui.Views;
 
 public partial class DeleteEmployee : ContentPage
 {
-    private readonly UserService _userService;
-    public DeleteEmployee(UserService userService)
+    private readonly IUserService _userService;
+    public DeleteEmployee(IUserService userService)
 	{
 		InitializeComponent();
         _userService = userService;

@@ -1,5 +1,5 @@
 ﻿using KafeFirinMaui.Helpers;
-using KafeFirinMaui.Services;
+using KafeFirinMaui.Services.Interfaces;
 using KafeFirinMaui.ViewModels;
 
 namespace KafeFirinMaui.Views;
@@ -7,8 +7,8 @@ namespace KafeFirinMaui.Views;
 public partial class ShowAvgRateOfEmployee : ContentPage
 {
     private readonly EmployeeRatePageViewModel _viewModel;
-    private readonly UserService _userService;
-    public ShowAvgRateOfEmployee(EmployeeRatePageViewModel viewModel, UserService userService)
+    private readonly IUserService _userService;
+    public ShowAvgRateOfEmployee(EmployeeRatePageViewModel viewModel, IUserService userService)
 	{
 		InitializeComponent();
         _viewModel = viewModel;

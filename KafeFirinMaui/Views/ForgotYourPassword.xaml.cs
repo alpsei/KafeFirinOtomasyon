@@ -1,13 +1,12 @@
-
-using KafeFirinMaui.Services;
+using KafeFirinMaui.Services.Interfaces;
 
 namespace KafeFirinMaui.Views;
 
 public partial class ForgotYourPassword : ContentPage
 {
-    private readonly UserService _userService;
+    private readonly IUserService _userService;
 
-    public ForgotYourPassword(UserService userService)
+    public ForgotYourPassword(IUserService userService)
     {
         InitializeComponent();
         _userService = userService;

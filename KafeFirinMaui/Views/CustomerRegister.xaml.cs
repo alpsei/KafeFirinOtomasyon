@@ -1,4 +1,4 @@
-using KafeFirinMaui.Services;
+using KafeFirinMaui.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 using SharedClass.Classes;
 
@@ -6,8 +6,8 @@ namespace KafeFirinMaui.Views;
 
 public partial class CustomerRegister : ContentPage
 {
-    private readonly UserService _userService;
-    public CustomerRegister(UserService userService)
+    private readonly IUserService _userService;
+    public CustomerRegister(IUserService userService)
     {
         InitializeComponent();
         _userService = userService;

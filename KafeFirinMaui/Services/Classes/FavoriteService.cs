@@ -1,4 +1,6 @@
-﻿using __XamlGeneratedCode__;
+﻿// Services/FavoriteService.cs
+
+using KafeFirinMaui.Services.Interfaces;
 using SharedClass.Classes;
 using System;
 using System.Collections.Generic;
@@ -7,17 +9,19 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace KafeFirinMaui.Services
+namespace KafeFirinMaui.Services.Classes
 {
-    public class FavoriteService
+    public class FavoriteService : IFavoriteService
     {
         private readonly HttpClient _httpClient;
         private readonly JsonSerializerOptions _jsonOptions;
+
         public FavoriteService(IHttpClientFactory httpClientFactory, JsonSerializerOptions jsonOptions)
         {
             _httpClient = httpClientFactory.CreateClient("ApiClient");
             _jsonOptions = jsonOptions;
         }
+
         public async Task<List<Favorites>> GetFavoritesAsync()
         {
             const string requestUri = "/favorite";
@@ -41,6 +45,7 @@ namespace KafeFirinMaui.Services
                 return new List<Favorites>();
             }
         }
+
         public async Task<bool> SendFavoritesAsync(Favorites favorite)
         {
             var content = new StringContent(JsonSerializer.Serialize(favorite, _jsonOptions), Encoding.UTF8, "application/json");
@@ -50,13 +55,13 @@ namespace KafeFirinMaui.Services
                 var responseContent = await response.Content.ReadAsStringAsync();
                 return true;
             }
-
             else
             {
                 var errorContent = await response.Content.ReadAsStringAsync();
                 return false;
             }
         }
+
         public async Task<bool> DeleteFavoriteByUserIdAsync(int userId, int productId)
         {
             try

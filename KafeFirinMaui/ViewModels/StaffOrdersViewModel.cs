@@ -1,15 +1,16 @@
-﻿using KafeFirinMaui.Services;
+﻿using KafeFirinMaui.Helpers;
+using KafeFirinMaui.Services.Classes;
+using KafeFirinMaui.Services.Interfaces;
+using SharedClass.Classes;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using SharedClass.Classes;
-using KafeFirinMaui.Helpers;
 
 namespace KafeFirinMaui.ViewModels
 {
     public class StaffOrdersViewModel : INotifyPropertyChanged
     {
-        private readonly OrderService _orderService;
+        private readonly IOrderService _orderService;
         public ObservableCollection<Orders> StaffOrders { get; set; } = new();
         private Orders _orders;
         public Orders Orders
@@ -25,7 +26,7 @@ namespace KafeFirinMaui.ViewModels
             }
         }
 
-        public StaffOrdersViewModel(OrderService orderService)
+        public StaffOrdersViewModel(IOrderService orderService)
         {
             _orderService = orderService;
         }

@@ -17,6 +17,11 @@ public partial class OrderHistory : ContentPage
         base.OnAppearing();
         await _viewModel.LoadOrderHistoryAsync();
     }
+    private async void SearchButton_Clicked(object sender, EventArgs e)
+    {
+        var selectedDate = datePicker.Date;
+        await _viewModel.LoadOrderHistoryAsync(selectedDate);
+    }
     private void HistoryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (e.CurrentSelection != null && e.CurrentSelection.Count > 0)

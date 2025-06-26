@@ -1,5 +1,6 @@
 ﻿using KafeFirinMaui.Helpers;
-using KafeFirinMaui.Services;
+using KafeFirinMaui.Services.Classes;
+using KafeFirinMaui.Services.Interfaces;
 using SharedClass.Classes;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -8,7 +9,7 @@ using Windows.Gaming.Preview.GamesEnumeration;
 
 public class RateViewModel : INotifyPropertyChanged
 {
-    private readonly RateService _rateService;
+    private readonly IRateService _rateService;
 
     private Rates _employeeRate;
     public Rates EmployeeRate
@@ -78,7 +79,7 @@ public class RateViewModel : INotifyPropertyChanged
 
     public ICommand SendRateCommand { get; }
 
-    public RateViewModel(RateService rateService)
+    public RateViewModel(IRateService rateService)
     {
         _rateService = rateService;
         SendRateCommand = new Command(async () => await SendRateAsync(), CanSendRate);

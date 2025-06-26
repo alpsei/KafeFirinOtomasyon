@@ -27,6 +27,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
+        <!-- Kullanıcı Kayıt Formu -->
         <Label Text="Ad:" 
                FontSize="Subtitle" 
                VerticalOptions="Center" 
@@ -66,6 +67,7 @@
                MinimumWidthRequest="175" MinimumHeightRequest="10"
                Grid.Row="2" Grid.Column="1"/>
 
+        <!-- Kayıt Ol Butonu -->
         <Button Clicked="RegisterOnClicked" Text="Kayıt Ol"
         Grid.Row="7" Grid.Column="0"
         Grid.ColumnSpan="4"
@@ -96,7 +98,9 @@
             </VisualStateManager.VisualStateGroups>
         </Button>
 
+        
 
+        <!-- E-Posta ve Güvenlik Sorusu -->
         <Label Text="E-Posta" FontSize="Subtitle" 
                VerticalOptions="Center" 
                Grid.Row="1" Grid.Column="2"/>

@@ -1,5 +1,6 @@
 ﻿using KafeFirinMaui.Helpers;
-using KafeFirinMaui.Services;
+using KafeFirinMaui.Services.Classes;
+using KafeFirinMaui.Services.Interfaces;
 using SharedClass.Classes;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,9 @@ namespace KafeFirinMaui.ViewModels
 {
     public class CustomerOrdersViewModel : INotifyPropertyChanged
     {
-        private readonly ProductServices _productServices;
-        private readonly OrderService _orderService;
-        private readonly FavoriteService _favoriteService;
+        private readonly IProductService _productServices;
+        private readonly IOrderService _orderService;
+        private readonly IFavoriteService _favoriteService;
         public ObservableCollection<ProductViewModel> ProductList { get; set; } = new();
         public ObservableCollection<CartDisplayItem> CartItems { get; set; } = new();
         public Dictionary<Products, int> Cart { get; set; } = new Dictionary<Products, int>();
@@ -81,7 +82,7 @@ namespace KafeFirinMaui.ViewModels
         public ICommand OrderCommand { get; }
 
 
-        public CustomerOrdersViewModel(ProductServices productServices, OrderService orderService, FavoriteService favoriteService)
+        public CustomerOrdersViewModel(IProductService productServices, IOrderService orderService, IFavoriteService favoriteService)
         {
             _productServices = productServices;
             _orderService = orderService;

@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 using SharedClass.Classes;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
+using KafeFirinMaui.Services.Interfaces;
 
-namespace KafeFirinMaui.Services
+namespace KafeFirinMaui.Services.Classes
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly HttpClient _httpClient;
         private readonly ILogger<UserService> _logger;
@@ -39,39 +40,52 @@ namespace KafeFirinMaui.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Kullanıcılar alınırken hata oluştu");
-                await App.Current.MainPage.DisplayAlert("Hata", "Kullanıcılar alınamadı.", "Tamam");
+                await Application.Current.MainPage.DisplayAlert("Hata", "Kullanıcılar alınamadı.", "Tamam");
                 return new List<Users>();
             }
         }
 
-        public async Task<bool> CreateUsersAsync(Users user)
+        public async Task<bool> CreateUsersAsync(Users user, int? createdBy = null)
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync("/api/users", user);
+                string url = "/api/users";
+                if (createdBy != null)
+                {
+                    url += $"?createdBy={createdBy}";
+                }
+
+                var response = await _httpClient.PostAsJsonAsync(url, user);
                 response.EnsureSuccessStatusCode();
                 return true;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Kullanıcı oluşturulurken hata oluştu");
-                await App.Current.MainPage.DisplayAlert("Hata", "Kullanıcı oluşturulamadı.", "Tamam");
+                await Application.Current.MainPage.DisplayAlert("Hata", "Kullanıcı oluşturulamadı.", "Tamam");
                 return false;
             }
         }
 
-        public async Task<bool> UpdateUsersAsync(Users user)
+
+        public async Task<bool> UpdateUsersAsync(Users user, int? updatedBy)
         {
             try
             {
-                var response = await _httpClient.PutAsJsonAsync($"/api/users/{user.UserID}", user);
+                string url = $"/api/users/{user.UserID}";
+                if (updatedBy!= null)
+                {
+                    url += $"?updatedBy={updatedBy}";
+                }
+
+                var response = await _httpClient.PutAsJsonAsync(url, user);
                 response.EnsureSuccessStatusCode();
                 return true;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Kullanıcı güncellenirken hata oluştu");
-                await App.Current.MainPage.DisplayAlert("Hata", "Kullanıcı güncellenemedi.", "Tamam");
+                await Application.Current.MainPage.DisplayAlert("Hata", "Kullanıcı güncellenemedi.", "Tamam");
                 return false;
             }
         }
@@ -87,7 +101,7 @@ namespace KafeFirinMaui.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Kullanıcı silinirken hata oluştu");
-                await App.Current.MainPage.DisplayAlert("Hata", "Kullanıcı silinemedi.", "Tamam");
+                await Application.Current.MainPage.DisplayAlert("Hata", "Kullanıcı silinemedi.", "Tamam");
                 return false;
             }
         }
@@ -102,7 +116,7 @@ namespace KafeFirinMaui.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Kullanıcı silinirken hata oluştu");
-                await App.Current.MainPage.DisplayAlert("Hata", "Kullanıcı silinemedi.", "Tamam");
+                await Application.Current.MainPage.DisplayAlert("Hata", "Kullanıcı silinemedi.", "Tamam");
                 return false;
             }
         }
@@ -120,19 +134,19 @@ namespace KafeFirinMaui.Services
             catch (HttpRequestException ex)
             {
                 _logger.LogError(ex, "Kullanıcı alınırken API hatası");
-                await App.Current.MainPage.DisplayAlert("Hata", "Kullanıcı bilgileri alınamadı.", "Tamam");
+                await Application.Current.MainPage.DisplayAlert("Hata", "Kullanıcı bilgileri alınamadı.", "Tamam");
                 return null;
             }
             catch (JsonException ex)
             {
                 _logger.LogError(ex, "JSON deserileştirme hatası");
-                await App.Current.MainPage.DisplayAlert("Hata", "Veri işlenirken bir hata oluştu.", "Tamam");
+                await Application.Current.MainPage.DisplayAlert("Hata", "Veri işlenirken bir hata oluştu.", "Tamam");
                 return null;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Kullanıcı alınırken beklenmedik hata");
-                await App.Current.MainPage.DisplayAlert("Hata", "Bilinmeyen bir hata oluştu.", "Tamam");
+                await Application.Current.MainPage.DisplayAlert("Hata", "Bilinmeyen bir hata oluştu.", "Tamam");
                 return null;
             }
         }
@@ -149,19 +163,19 @@ namespace KafeFirinMaui.Services
             catch (HttpRequestException ex)
             {
                 _logger.LogError(ex, "Kullanıcı alınırken API hatası");
-                await App.Current.MainPage.DisplayAlert("Hata", "Kullanıcı bilgileri alınamadı.", "Tamam");
+                await Application.Current.MainPage.DisplayAlert("Hata", "Kullanıcı bilgileri alınamadı.", "Tamam");
                 return null;
             }
             catch (JsonException ex)
             {
                 _logger.LogError(ex, "JSON deserileştirme hatası");
-                await App.Current.MainPage.DisplayAlert("Hata", "Veri işlenirken bir hata oluştu.", "Tamam");
+                await Application.Current.MainPage.DisplayAlert("Hata", "Veri işlenirken bir hata oluştu.", "Tamam");
                 return null;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Kullanıcı alınırken beklenmedik hata");
-                await App.Current.MainPage.DisplayAlert("Hata", "Bilinmeyen bir hata oluştu.", "Tamam");
+                await Application.Current.MainPage.DisplayAlert("Hata", "Bilinmeyen bir hata oluştu.", "Tamam");
                 return null;
             }
         }
@@ -178,19 +192,19 @@ namespace KafeFirinMaui.Services
             catch (HttpRequestException ex)
             {
                 _logger.LogError(ex, "Kullanıcı girişi sırasında API hatası");
-                await App.Current.MainPage.DisplayAlert("Hata", "Kullanıcı girişi başarısız.", "Tamam");
+                await Application.Current.MainPage.DisplayAlert("Hata", "Kullanıcı girişi başarısız.", "Tamam");
                 return null;
             }
             catch (JsonException ex)
             {
                 _logger.LogError(ex, "JSON deserileştirme hatası");
-                await App.Current.MainPage.DisplayAlert("Hata", "Veri işlenirken bir hata oluştu.", "Tamam");
+                await Application.Current.MainPage.DisplayAlert("Hata", "Veri işlenirken bir hata oluştu.", "Tamam");
                 return null;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Kullanıcı girişi sırasında beklenmedik hata");
-                await App.Current.MainPage.DisplayAlert("Hata", "Bilinmeyen bir hata oluştu.", "Tamam");
+                await Application.Current.MainPage.DisplayAlert("Hata", "Bilinmeyen bir hata oluştu.", "Tamam");
                 return null;
             }
         }
@@ -201,14 +215,14 @@ namespace KafeFirinMaui.Services
                 var user = await GetUserByUsernameAsync(username);
                 if (user == null)
                 {
-                    await App.Current.MainPage.DisplayAlert("Hata", "Kullanıcı bulunamadı.", "Tamam");
+                    await Application.Current.MainPage.DisplayAlert("Hata", "Kullanıcı bulunamadı.", "Tamam");
                     return false;
                 }
 
                 if (!string.Equals(user.SecQuestion, secQuestion, StringComparison.OrdinalIgnoreCase) ||
                     !string.Equals(user.SecAnswer, secAnswer, StringComparison.OrdinalIgnoreCase))
                 {
-                    await App.Current.MainPage.DisplayAlert("Hata", "Güvenlik sorusu veya cevabı hatalı.", "Tamam");
+                    await Application.Current.MainPage.DisplayAlert("Hata", "Güvenlik sorusu veya cevabı hatalı.", "Tamam");
                     return false;
                 }
 
@@ -221,7 +235,7 @@ namespace KafeFirinMaui.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Şifre güncellenirken hata oluştu");
-                await App.Current.MainPage.DisplayAlert("Hata", "Şifre güncellenemedi.", "Tamam");
+                await Application.Current.MainPage.DisplayAlert("Hata", "Şifre güncellenemedi.", "Tamam");
                 return false;
             }
         }

@@ -1,14 +1,14 @@
 using KafeFirinMaui.Helpers;
-using KafeFirinMaui.Services;
 using Windows.System;
 using SharedClass.Classes;
+using KafeFirinMaui.Services.Interfaces;
 
 namespace KafeFirinMaui.Views;
 
 public partial class UserLogin : ContentPage
 {
-    private readonly UserService userService;
-    public UserLogin(UserService _userService)
+    private readonly IUserService userService;
+    public UserLogin(IUserService _userService)
     {
         InitializeComponent();
         userService = _userService;
@@ -31,7 +31,7 @@ public partial class UserLogin : ContentPage
                 else 
                 {
                         
-                    DisplayAlert("Bilgi", "Kullanýcý giriþi baþarýlý!", "Tamam");
+                    DisplayAlert("Bilgi", "Kullanýcý giriþi baþarýsýz!", "Tamam");
                     usernameEntry.Text = string.Empty;
                     passwordEntry.Text = string.Empty;
                 }

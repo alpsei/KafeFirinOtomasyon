@@ -1,6 +1,6 @@
 using ABI.System.Collections.Generic;
 using KafeFirinMaui.Helpers;
-using KafeFirinMaui.Services;
+using KafeFirinMaui.Services.Interfaces;
 using KafeFirinMaui.ViewModels;
 using SharedClass.Classes;
 using System.Collections.ObjectModel;
@@ -13,8 +13,8 @@ namespace KafeFirinMaui.Views;
 public partial class CustomerOrders : ContentPage
 {
     private readonly CustomerOrdersViewModel _viewModel;
-    private readonly FavoriteService _favoriteService;
-    public CustomerOrders(CustomerOrdersViewModel viewModel, FavoriteService favoriteService)
+    private readonly IFavoriteService _favoriteService;
+    public CustomerOrders(CustomerOrdersViewModel viewModel, IFavoriteService favoriteService)
     {
         InitializeComponent();
         _viewModel = viewModel;

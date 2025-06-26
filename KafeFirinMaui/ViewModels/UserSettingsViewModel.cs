@@ -1,5 +1,5 @@
 ﻿using KafeFirinMaui.Helpers;
-using KafeFirinMaui.Services;
+using KafeFirinMaui.Services.Interfaces;
 using SharedClass.Classes;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ namespace KafeFirinMaui.ViewModels
 {
     public class UserSettingsViewModel : INotifyPropertyChanged
     {
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
         private Users _user;
         //public ICommand UpdateCommand => new Command(async () => await UpdateUserInfoAsync());
 
@@ -29,7 +29,7 @@ namespace KafeFirinMaui.ViewModels
             }
         }
 
-        public UserSettingsViewModel(UserService userService)
+        public UserSettingsViewModel(IUserService userService)
         {
             _userService = userService;
             _ = LoadUserInfoAsync();
@@ -55,7 +55,8 @@ namespace KafeFirinMaui.ViewModels
         {
             try
             {
-                var result = await _userService.UpdateUsersAsync(User);
+                var currentUserId = Session.LoggedInUser.UserID;
+                var result = await _userService.UpdateUsersAsync(User,currentUserId);
                 if (result)
                 {
                     return true;

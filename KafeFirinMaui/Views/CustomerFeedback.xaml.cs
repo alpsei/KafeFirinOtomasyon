@@ -1,4 +1,4 @@
-using KafeFirinMaui.Services;
+using KafeFirinMaui.Services.Interfaces;
 using KafeFirinMaui.ViewModels;
 
 namespace KafeFirinMaui.Views;
@@ -7,7 +7,7 @@ public partial class CustomerFeedback : ContentPage
 {
     private readonly FeedbackViewModel _viewModel;
 
-    public CustomerFeedback(FeedbackService feedbackService)
+    public CustomerFeedback(IFeedbackService feedbackService)
     {
         InitializeComponent();
         _viewModel = new FeedbackViewModel(feedbackService);

@@ -17,6 +17,9 @@ namespace KafeFirinMaui.WinUI
         public App()
         {
             this.InitializeComponent();
+            System.Globalization.CultureInfo.DefaultThreadCurrentCulture = new System.Globalization.CultureInfo("tr-TR");
+            System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = new System.Globalization.CultureInfo("tr-TR");
+            Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "tr-TR";
         }
 
         protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();

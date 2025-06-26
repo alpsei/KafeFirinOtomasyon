@@ -1,5 +1,4 @@
-﻿using KafeFirinMaui.Services;
-using SharedClass.Classes;
+﻿using SharedClass.Classes;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,13 +10,15 @@ using System.Threading.Tasks;
 using Microsoft.Maui.Dispatching;
 using Windows.System;
 using KafeFirinMaui.Helpers;
+using KafeFirinMaui.Services.Classes;
+using KafeFirinMaui.Services.Interfaces;
 
 namespace KafeFirinMaui.ViewModels
 {
     public class ProductViewModel : Products, INotifyPropertyChanged
     {
-        private readonly ProductServices _productServices;
-        private readonly FavoriteService _favoriteService;
+        private readonly IProductService _productServices;
+        private readonly IFavoriteService _favoriteService;
         private Products _products;
         private ObservableCollection<Products> _productList { get; set; } = new();
         public ObservableCollection<int> FavoriteProductIds { get; set; } = new();
@@ -55,7 +56,7 @@ namespace KafeFirinMaui.ViewModels
                 }
             }
         }
-        public ProductViewModel(ProductServices productServices, FavoriteService favoriteService)
+        public ProductViewModel(IProductService productServices, IFavoriteService favoriteService)
         {
             _productServices = productServices;
             _favoriteService = favoriteService;

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using KafeFirinMaui.Services.Interfaces;
+using Newtonsoft.Json;
 using SharedClass.Classes;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,9 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace KafeFirinMaui.Services
+namespace KafeFirinMaui.Services.Classes
 {
-    public class OrderService
+    public class OrderService : IOrderService
     {
         private readonly HttpClient _httpClient;
         private readonly JsonSerializerOptions _jsonOptions;
@@ -75,17 +76,9 @@ namespace KafeFirinMaui.Services
 
         public async Task<bool> UpdateOrderStatusAsync(Orders orders)
         {
-            try
-            {
-                var response = await _httpClient.PutAsJsonAsync($"/api/orders/{orders.OrderID}", orders);
-                response.EnsureSuccessStatusCode();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                await App.Current.MainPage.DisplayAlert("Hata", "Kullanıcı güncellenemedi.", "Tamam");
-                return false;
-            }
+            var response = await _httpClient.PutAsJsonAsync($"/api/orders/{orders.OrderID}", orders, _jsonOptions);
+            response.EnsureSuccessStatusCode();
+            return true;
         }
 
 

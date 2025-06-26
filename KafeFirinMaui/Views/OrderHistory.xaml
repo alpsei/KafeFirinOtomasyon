@@ -5,10 +5,18 @@
              Title="Sipariş Geçmişi">
     <ScrollView>
         <VerticalStackLayout Padding="20">
+
+            <Frame Padding="10" Margin="0,0,0,15" BorderColor="LightGray">
+                <HorizontalStackLayout Spacing="10" VerticalOptions="Center" HorizontalOptions="Center">
+                    <Label Text="Tarihe Göre Filtrele:" VerticalOptions="Center"/>
+                    <DatePicker x:Name="datePicker" Format="dd/MM/yyyy" />
+                    <Button Text="Sorgula" Clicked="SearchButton_Clicked" BackgroundColor="DarkOrange"/>
+                </HorizontalStackLayout>
+            </Frame>
             <CollectionView x:Name="EmployeeList"
-                        ItemsSource="{Binding OrderHistories}"
-                        SelectionMode="Single"
-                        SelectionChanged="HistoryList_SelectionChanged">
+                            ItemsSource="{Binding OrderHistories}"
+                            SelectionMode="Single"
+                            SelectionChanged="HistoryList_SelectionChanged">
 
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
@@ -18,23 +26,28 @@
                     <DataTemplate>
                         <Frame BorderColor="Gray" Padding="10" Margin="5" BackgroundColor="DarkOrange">
                             <VerticalStackLayout>
-                                <Label Text="Sipariş" 
-                                   FontSize="Medium" 
-                                   TextColor="White"/>
+                                <Label Text="{Binding OrderDate, StringFormat='Sipariş Tarihi: {0:dd MMMM yyyy}'}"   
+                                       FontSize="Medium"  
+                                       TextColor="White"
+                                       FontAttributes="Bold"/>
+                                <Label Text="{Binding OrderStatus, StringFormat='Durum: {0}'}"  
+                                       FontSize="Small"  
+                                       TextColor="White"/>
                             </VerticalStackLayout>
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <Grid x:Name="DetailPanel" IsVisible="False" Padding="10" BackgroundColor="#a13a0e">
+            <Grid x:Name="DetailPanel" IsVisible="False" Padding="10" BackgroundColor="#a13a0e" Margin="0,15,0,0">
                 <VerticalStackLayout>
-                    <Label Text="Detaylar" FontAttributes="Bold" />
-                    <Label x:Name="DetailOrderDate" Text="{Binding OrderDate, StringFormat='Tarih: {0:dd/MM/yyyy}'}"/>
-                    <Label x:Name="DetailOrderStatus" Text="{Binding OrderStatus, StringFormat='Durum: {0}'}"/>
-                    <Label x:Name="DetailOrderNote" Text="{Binding OrderNote, StringFormat='Not: {0}'}"/>
+                    <Label Text="Detaylar" FontAttributes="Bold" TextColor="White" FontSize="18"/>
+                    <Label x:Name="DetailOrderDate" TextColor="White"/>
+                    <Label x:Name="DetailOrderStatus" TextColor="White"/>
+                    <Label x:Name="DetailOrderNote" TextColor="White"/>
                 </VerticalStackLayout>
             </Grid>
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

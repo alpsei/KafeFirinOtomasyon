@@ -1,5 +1,5 @@
 ﻿using KafeFirinMaui.Helpers;
-using KafeFirinMaui.Services;
+using KafeFirinMaui.Services.Interfaces;
 using SharedClass.Classes;
 using System;
 using System.ComponentModel;
@@ -10,7 +10,7 @@ namespace KafeFirinMaui.ViewModels
 {
     public class FeedbackViewModel : INotifyPropertyChanged
     {
-        private readonly FeedbackService _feedbackService;
+        private readonly IFeedbackService _feedbackService;
         private List<FeedBacks> _feedbacks = new List<FeedBacks>();
         public List<FeedBacks> FeedBacks
         {
@@ -22,14 +22,10 @@ namespace KafeFirinMaui.ViewModels
             }
         }
         private FeedBacks _feedback;
-        public FeedBacks feedback
+        public FeedBacks Feedback
         {
             get => _feedback;
-            set
-            {
-                _feedback = value;
-                OnPropertyChanged();
-            }
+            set { _feedback = value; OnPropertyChanged(); }
         }
         private string _selectedTopic;
         public string SelectedTopic
@@ -67,10 +63,10 @@ namespace KafeFirinMaui.ViewModels
             }
         }
 
-        public FeedbackViewModel(FeedbackService feedbackService)
+        public FeedbackViewModel(IFeedbackService feedbackService)
         {
             _feedbackService = feedbackService;
-            feedback = new FeedBacks();
+            _feedback = new FeedBacks();
             CurrentCustomerId = Session.LoggedInUser?.UserID ?? 0;
         }
 
@@ -79,7 +75,7 @@ namespace KafeFirinMaui.ViewModels
             if (string.IsNullOrWhiteSpace(FeedbackMessage) || string.IsNullOrWhiteSpace(SelectedTopic))
                 return false;
 
-            feedback = new FeedBacks
+            _feedback = new FeedBacks
             {
                 CustomerID = CurrentCustomerId,
                 Subject = SelectedTopic,
@@ -88,7 +84,7 @@ namespace KafeFirinMaui.ViewModels
                 ReadReceipt = false
             };
 
-            var result = await _feedbackService.SendFeedbackAsync(feedback);
+            var result = await _feedbackService.SendFeedbackAsync(_feedback);
             if (result)
             {
                 FeedbackMessage = string.Empty;

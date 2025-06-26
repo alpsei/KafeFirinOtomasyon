@@ -35,6 +35,14 @@ public partial class StaffMainMenu : ContentPage
         if (addProduct != null)
             await Navigation.PushAsync(addProduct);
     }
+
+    // Bilgilerimi düzenle butonu
+    private async void OnSettingsButtonTapped(object sender, EventArgs e)
+    {
+        var userSettings = App.Services.GetService<UserSettings>();
+        if (userSettings != null)
+            await Navigation.PushAsync(userSettings);
+    }
     private async void OnLogoutButtonTapped(object sender, EventArgs e)
     {
         DisplayAlert("Çýkýþ Yap", "Çýkýþ yaptýnýz.", "Tamam");

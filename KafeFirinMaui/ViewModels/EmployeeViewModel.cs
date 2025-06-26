@@ -1,5 +1,5 @@
 ﻿using KafeFirinMaui.Helpers;
-using KafeFirinMaui.Services;
+using KafeFirinMaui.Services.Interfaces;
 using SharedClass.Classes;
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ namespace KafeFirinMaui.ViewModels
 {
     public class EmployeeViewModel : INotifyPropertyChanged
     {
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
         private Users _user;
         public ObservableCollection<Users> Employees { get; set; } = new();
         public Users Employee
@@ -28,7 +28,7 @@ namespace KafeFirinMaui.ViewModels
                 OnPropertyChanged();
             }
         }
-        public EmployeeViewModel(UserService userService)
+        public EmployeeViewModel(IUserService userService)
         {
             _userService = userService;
             _ = LoadEmployeeAsync();
@@ -55,7 +55,8 @@ namespace KafeFirinMaui.ViewModels
         {
             try
             {
-                var result = await _userService.UpdateUsersAsync(Employee);
+                var currentUserId = Session.LoggedInUser.UserID;
+                var result = await _userService.UpdateUsersAsync(Employee, currentUserId);
                 if (result)
                 {
                     await App.Current.MainPage.DisplayAlert("Başarılı", "Kullanıcı bilgileri güncellendi.", "Tamam");

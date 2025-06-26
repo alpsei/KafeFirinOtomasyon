@@ -28,8 +28,14 @@ namespace KafeFirinApi.EndPoints
                 return user is not null ? Results.Ok(user) : Results.NotFound();
             });
             // kullanıcı ekle
-            routes.MapPost("/api/users", async (Users user, AppDbContext db) =>
+            routes.MapPost("/api/users", async (Users user, int? createdBy, AppDbContext db) =>
             {
+                var mudurid = user.RoleID == 3;
+                if (user.RoleID == 1)
+                    user.CreatedBy = null;
+                else if (user.RoleID == 3)
+                    user.CreatedBy = createdBy;
+
                 db.Users.Add(user);
                 await db.SaveChangesAsync();
                 return Results.Created($"/api/users/{user.UserID}", user);
@@ -59,7 +65,7 @@ namespace KafeFirinApi.EndPoints
                 return Results.NoContent();
             });
             // kullanıcı güncelle
-            routes.MapPut("/api/users/{id}", async (int id, Users updatedUser, AppDbContext db) =>
+            routes.MapPut("/api/users/{id}", async (int id, int? updatedBy, Users updatedUser, AppDbContext db) =>
             {
                 var user = await db.Users.FindAsync(id);
                 if (user is null)
@@ -76,6 +82,8 @@ namespace KafeFirinApi.EndPoints
                 user.SecAnswer = updatedUser.SecAnswer;
                 user.Salary = updatedUser.Salary;
                 user.RoleID = updatedUser.RoleID;
+                user.UpdatedAt = DateTime.Now;
+                user.UpdatedBy = updatedBy;
 
                 await db.SaveChangesAsync();
                 return Results.NoContent();

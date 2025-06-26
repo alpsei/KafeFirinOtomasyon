@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using KafeFirinMaui.Services.Interfaces;
+using Microsoft.Extensions.Logging;
 using SharedClass.Classes;
 using System;
 using System.Collections.Generic;
@@ -8,40 +9,41 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace KafeFirinMaui.Services
+namespace KafeFirinMaui.Services.Classes
 {
-    public class FeedbackService
+    public class FeedbackService : IFeedbackService
     {
         private readonly HttpClient _httpClient;
         private readonly JsonSerializerOptions _jsonOptions;
-        private readonly ILogger<UserService> _logger;
-        public FeedbackService(IHttpClientFactory httpClientFactory, JsonSerializerOptions jsonOptions, ILogger<UserService> logger)
+        private readonly ILogger<FeedbackService> _logger;
+
+        public FeedbackService(IHttpClientFactory httpClientFactory, JsonSerializerOptions jsonOptions, ILogger<FeedbackService> logger)
         {
             _httpClient = httpClientFactory.CreateClient("ApiClient");
             _jsonOptions = jsonOptions;
             _logger = logger;
         }
+
         public async Task<bool> SendFeedbackAsync(FeedBacks feedback)
         {
             var content = new StringContent(JsonSerializer.Serialize(feedback, _jsonOptions), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("/feedback", content);
-            if(response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
                 var responseContent = await response.Content.ReadAsStringAsync();
                 return true;
             }
-
             else
             {
                 var errorContent = await response.Content.ReadAsStringAsync();
                 return false;
             }
         }
+
         public async Task<List<FeedBacks>> GetFeedbacksAsync()
         {
             const string requestUri = "/feedback";
             _logger.LogInformation("[FeedbackService] GetFeedbacksAsync çağrıldı. İstek URI: {RequestUri}", _httpClient.BaseAddress + requestUri);
-
             try
             {
                 var response = await _httpClient.GetAsync(requestUri);
@@ -70,7 +72,6 @@ namespace KafeFirinMaui.Services
         {
             var requestUri = $"/feedback/user/{userId}";
             _logger.LogInformation("[FeedbackService] GetFeedbacksByUserId çağrıldı. UserId: {UserId}, İstek URI: {RequestUri}", userId, _httpClient.BaseAddress + requestUri);
-
             try
             {
                 var response = await _httpClient.GetAsync(requestUri);
@@ -94,12 +95,12 @@ namespace KafeFirinMaui.Services
                 return new List<FeedBacks>();
             }
         }
+
         public async Task<bool> UpdateFeedbackAsync(FeedBacks feedback)
         {
-            var content = new StringContent(System.Text.Json.JsonSerializer.Serialize(feedback), Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonSerializer.Serialize(feedback), Encoding.UTF8, "application/json");
             var response = await _httpClient.PutAsync($"/feedback/{feedback.FeedBackID}", content);
             return response.IsSuccessStatusCode;
         }
-
     }
 }

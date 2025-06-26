@@ -13,7 +13,7 @@
         <VerticalStackLayout Grid.Row="0"
                              VerticalOptions="Center"
                              HorizontalOptions="Center"
-                             Spacing="15">
+                             Spacing="30">
 
             <HorizontalStackLayout Spacing="50">
                 <!-- Ad -->
@@ -42,6 +42,10 @@
                     <Label Text="Şifre:" WidthRequest="80" VerticalOptions="Center"/>
                     <Entry Text="{Binding User.Password}" WidthRequest="200"/>
                 </HorizontalStackLayout>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <Label Text="Kullanıcı Adı:" WidthRequest="80" VerticalOptions="Center"/>
+                <Entry Text="{Binding User.Username}" WidthRequest="200"/>
             </HorizontalStackLayout>
         </VerticalStackLayout>
 

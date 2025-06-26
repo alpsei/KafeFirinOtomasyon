@@ -44,14 +44,17 @@
                                          Clicked="OnHeartClicked"
                                          BindingContext="{Binding .}"
                                          Margin="0,0,0,10"/>
-                            
+
                             <StackLayout Padding="0"  Margin="0,50,0,0">
                                 <Label Text="{Binding ProductName}" FontAttributes="Bold" HorizontalOptions="Center"/>
                                 <Label Text="{Binding Price, StringFormat='₺{0:F2}'}" HorizontalOptions="Center"/>
-                                <Button Text="Sepete Ekle"
+                                <Button Text="Sepete Ekle" 
+                                        TextColor="White"
+                                        FontAttributes="Bold"
                                         Command="{Binding BindingContext.AddToCartCommand, Source={x:Reference ProductListView}}"
                                         CommandParameter="{Binding .}"
-                                        IsEnabled="{Binding Stock, Converter={StaticResource GreaterThanZeroConverter}}"/>
+                                        IsEnabled="{Binding Stock, Converter={StaticResource GreaterThanZeroConverter}}"
+                                        BackgroundColor="DarkOrange"/>
                             </StackLayout>
                         </Grid>
                     </Frame>
@@ -109,7 +112,10 @@
                HorizontalOptions="End"
                IsVisible="{Binding DiscountApplied}" />
                 <Button Text="Sipariş Ver"
-                Command="{Binding OrderCommand}" />
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        Command="{Binding OrderCommand}" 
+                        BackgroundColor="DarkOrange"/>
             </StackLayout>
         </Frame>
     </Grid>

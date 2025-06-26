@@ -1,10 +1,11 @@
-﻿using KafeFirinMaui.Services;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using KafeFirinMaui.Views;
 using KafeFirinMaui;
 using KafeFirinMaui.ViewModels;
 using System.Text.Json;
+using KafeFirinMaui.Services.Classes;
+using KafeFirinMaui.Services.Interfaces;
 
 
 namespace KafeFirinMaui
@@ -42,14 +43,14 @@ namespace KafeFirinMaui
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             });
 
-            builder.Services.AddTransient<UserService>();
+            builder.Services.AddTransient<IUserService, UserService>();
             builder.Services.AddTransient<UserLogin>();
             builder.Services.AddTransient<CustomerRegister>();
             builder.Services.AddTransient<CustomerOrders>();
             builder.Services.AddTransient<CustomerOrdersViewModel>();
             builder.Services.AddTransient<CustomerOrders>();
-            builder.Services.AddTransient<ProductServices>();
-            builder.Services.AddTransient<OrderService>();
+            builder.Services.AddTransient<IProductService, ProductServices>();
+            builder.Services.AddTransient<IOrderService, OrderService>();
             builder.Services.AddTransient<EmployeeViewModel>();
             builder.Services.AddTransient<RateEmployee>();
             builder.Services.AddTransient<OrderHistory>();
@@ -65,7 +66,7 @@ namespace KafeFirinMaui
             builder.Services.AddTransient<CustomerFeedback>();
             builder.Services.AddTransient<SalaryManagement>();
             builder.Services.AddTransient<ForgotYourPassword>();
-            builder.Services.AddTransient<RateService>();
+            builder.Services.AddTransient<IRateService, RateService>();
             builder.Services.AddTransient<RateViewModel>();
             builder.Services.AddTransient<EmployeeRatePageViewModel>(sp =>
             new EmployeeRatePageViewModel(
@@ -79,12 +80,10 @@ namespace KafeFirinMaui
             builder.Services.AddTransient<DeleteEmployee>();
             builder.Services.AddTransient<StaffOrdersViewModel>();
             builder.Services.AddTransient<StaffOrders>();
-            builder.Services.AddTransient<FavoriteService>();
-
+            builder.Services.AddTransient<IFavoriteService, FavoriteService>();
+            builder.Services.AddTransient<IFeedbackService, FeedbackService>();
             var app = builder.Build();
-
             App.Services = app.Services;
-
             return app;
 
         }
